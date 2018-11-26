@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Card from "../layout/Card";
 
 class Purchases extends Component {
   constructor(props) {
@@ -61,39 +62,10 @@ class Purchases extends Component {
     return (
       <div>
         <section className="section">
-          <div className="card events-card">
-            <header className="card-header">
-              <p className="card-header-title">Filtros</p>
-            </header>
-          </div>
+          <Card title="Filtros" />
         </section>
         <section className="section">
-          <div className="card events-card">
-            <header className="card-header">
-              <p className="card-header-title">Gastos</p>
-              <nav className="level">
-                <div className="level-item">
-                  <button className="button">Teste</button>
-                  <button className="button">Teste</button>
-                  <button className="button">Teste</button>
-                  <button className="button">Teste</button>
-                  <button className="button">Teste</button>
-                </div>
-                <a
-                  href="#"
-                  className="card-header-icon"
-                  aria-label="more options"
-                >
-                  <span className="icon">
-                    <i className="fa fa-angle-down" aria-hidden="true" />
-                  </span>
-                </a>
-              </nav>
-            </header>
-            <div className="card-table">
-              <div className="content">{this.renderPurchases()}</div>
-            </div>
-          </div>
+          <Card title="Expenses">{this.renderPurchases()}</Card>
         </section>
       </div>
     );
@@ -118,7 +90,7 @@ class Purchases extends Component {
                     </span>
                   </a>
                 </div>
-                <button className="button">Teste</button>
+                <input className="input" />
               </nav>
             </th>
             <th>Value</th>

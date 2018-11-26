@@ -6,6 +6,7 @@ import registerServiceWorker from "./registerServiceWorker";
 
 import "bulma/css/bulma.css";
 import "font-awesome/css/font-awesome.min.css";
+import "animate.css/animate.min.css";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 registerServiceWorker();
