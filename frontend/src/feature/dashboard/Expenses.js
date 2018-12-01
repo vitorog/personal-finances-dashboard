@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Card from "../layout/Card";
+import Modal from "../layout/Modal";
 
 class Purchases extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isAddModalVisible: false,
       purchases: [
         {
           description: "Hotmart Guitar Evoluti",
@@ -56,6 +58,12 @@ class Purchases extends Component {
         }
       ]
     };
+
+    this.toggleAddModal = this.toggleAddModal.bind(this);
+  }
+
+  toggleAddModal() {
+    this.setState({isAddModalVisible: !this.state.isAddModalVisible})
   }
 
   render() {
@@ -65,8 +73,10 @@ class Purchases extends Component {
           <Card title="Filtros" />
         </section>
         <section className="section">
-          <Card title="Expenses">{this.renderPurchases()}</Card>
+          <Card title="Expenses"
+                actions={[{text: 'Add', icon: 'fa-plus', callback: this.toggleAddModal}, {text: 'Remove', icon: 'fa-minus'}]}>{this.renderPurchases()}</Card>
         </section>
+        <Modal title="Add Expense" isVisible={this.state.isAddModalVisible} toggleModal={this.toggleAddModal}/>
       </div>
     );
   }
@@ -76,23 +86,7 @@ class Purchases extends Component {
       <table className="table is-fullwidth">
         <thead>
           <tr>
-            <th>
-              <nav className="panel">
-                <div>
-                  <a
-                    onClick={() => {
-                      console.log("HERE");
-                    }}
-                  >
-                    Description{" "}
-                    <span className="icon">
-                      <i className="fa fa-sort-asc" />
-                    </span>
-                  </a>
-                </div>
-                <input className="input" />
-              </nav>
-            </th>
+            <th>Description</th>
             <th>Value</th>
             <th>Category</th>
             <th>Payment</th>

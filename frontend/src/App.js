@@ -24,7 +24,6 @@ class App extends Component {
             </div>
             <div className="column is-9">
               <Breadcrumb />
-              <Dashboard />
               <Purchases />
             </div>
           </div>
