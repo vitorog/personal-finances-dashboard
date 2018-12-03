@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class Card extends Component {
   constructor(props) {
@@ -23,16 +23,16 @@ class Card extends Component {
         <header className="card-header">
           <p className="card-header-title">{this.props.title}</p>
           <nav className="level">
-            {this.props.actions.map(action =>
-              (<div className="level-item">
+            {this.props.actions.map(action => (
+              <div className="level-item">
                 <a className="button" onClick={action.callback}>
                   <span className="icon is-small">
-                    <i className={"fa " + action.icon}/>
+                    <i className={"fa " + action.icon} />
                   </span>
                   <span>{action.text}</span>
                 </a>
-              </div>)
-            )}
+              </div>
+            ))}
             <a
               href="#"
               className="card-header-icon"
@@ -40,7 +40,14 @@ class Card extends Component {
               onClick={this.toggleCollapse}
             >
               <span className="icon">
-                <i className={!this.state.collapsed ? "fa fa-angle-down" : "fa fa-angle-up"} aria-hidden="true" />
+                <i
+                  className={
+                    !this.state.collapsed
+                      ? "fa fa-angle-down"
+                      : "fa fa-angle-up"
+                  }
+                  aria-hidden="true"
+                />
               </span>
             </a>
           </nav>
@@ -60,16 +67,18 @@ class Card extends Component {
 
 Card.propTypes = {
   title: PropTypes.string,
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    action: PropTypes.string.isRequired,
-    callback: PropTypes.func.isRequired
-  }))
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      action: PropTypes.string.isRequired,
+      callback: PropTypes.func.isRequired
+    })
+  )
 };
 
 // Specifies the default values for props:
 Card.defaultProps = {
-  actions: [],
+  actions: []
 };
 
 export default Card;

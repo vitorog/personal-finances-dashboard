@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Card from "../layout/Card";
 import Modal from "../layout/Modal";
+import AddExpenseModal from "./AddExpenseModal";
 
 class Purchases extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ class Purchases extends Component {
   }
 
   toggleAddModal() {
-    this.setState({isAddModalVisible: !this.state.isAddModalVisible})
+    this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
   }
 
   render() {
@@ -73,10 +74,23 @@ class Purchases extends Component {
           <Card title="Filtros" />
         </section>
         <section className="section">
-          <Card title="Expenses"
-                actions={[{text: 'Add', icon: 'fa-plus', callback: this.toggleAddModal}, {text: 'Remove', icon: 'fa-minus'}]}>{this.renderPurchases()}</Card>
+          <Card
+            title="Expenses"
+            actions={[
+              { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
+              { text: "Remove", icon: "fa-minus" }
+            ]}
+          >
+            {this.renderPurchases()}
+          </Card>
         </section>
-        <Modal title="Add Expense" isVisible={this.state.isAddModalVisible} toggleModal={this.toggleAddModal}/>
+        <Modal
+          title="Add Expense"
+          isVisible={this.state.isAddModalVisible}
+          toggleModal={this.toggleAddModal}
+        >
+          <AddExpenseModal />
+        </Modal>
       </div>
     );
   }
