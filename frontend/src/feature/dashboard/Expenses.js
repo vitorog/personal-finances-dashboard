@@ -15,7 +15,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -23,7 +23,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -31,7 +31,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -39,7 +39,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -47,7 +47,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -55,7 +55,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubnakId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         }
       ]
     };
@@ -100,12 +100,15 @@ class Purchases extends Component {
       <table className="table is-fullwidth">
         <thead>
           <tr>
+            <th>
+              <input type="checkbox" />
+            </th>
             <th>Description</th>
             <th>Value</th>
             <th>Category</th>
             <th>Payment</th>
             <th>Date</th>
-            <th>Quota</th>
+            <th># Months</th>
             <th>Comments</th>
             <th>Split</th>
           </tr>
@@ -113,12 +116,17 @@ class Purchases extends Component {
         <tbody>
           {this.state.purchases.map(p => (
             <tr>
-              <td>{p.description}</td>
+              <td>
+                <input type="checkbox" />
+              </td>
+              <td>
+                <a href="#">{p.description}</a>
+              </td>
               <td>R$ {(p.value / 100).toFixed(2)}</td>
               <td>{p.category}</td>
               <td>{p.paymentMethod}</td>
               <td>{p.date}</td>
-              <td>{p.quota}</td>
+              <td>{p.months}</td>
               <td>{p.comments}</td>
               <td>{p.split}</td>
             </tr>
