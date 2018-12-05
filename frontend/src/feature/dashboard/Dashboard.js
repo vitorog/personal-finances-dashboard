@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
-      <section class="hero is-info welcome is-small is-bold">
-        <div class="hero-body">
-          <div class="container" style={{ textAlign: "left" }}>
-            <h1 class="title">Novembro - 2018</h1>
+      <section className="hero is-info welcome is-small is-bold">
+        <div className="hero-body">
+          <div className="container" style={{ textAlign: "left" }}>
+            <h1 className="title">Novembro - 2018</h1>
           </div>
         </div>
       </section>

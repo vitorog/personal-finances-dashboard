@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 
 const Sidebar = () => {
   return (
-    <aside class="menu is-hidden-mobile">
-      <p class="menu-label">Contas</p>
-      <ul class="menu-list">
+    <aside className="menu is-hidden-mobile">
+      <p className="menu-label">Contas</p>
+      <ul className="menu-list">
         <li>
-          <a class="is-active">Dashboard</a>
+          <a className="is-active">Dashboard</a>
         </li>
         <li>
           <a>Gastos</a>

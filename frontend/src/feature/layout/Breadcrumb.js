@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 
 const Breadcrumb = () => {
   return (
-    <nav class="breadcrumb" aria-label="breadcrumbs">
+    <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
         <li>
           <a href="../">Contas</a>
         </li>
-        <li class="is-active">
-          <a href="#" aria-current="page">
+        <li className="is-active">
+          <a href="#/">
             Dashboard
           </a>
         </li>

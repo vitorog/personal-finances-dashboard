@@ -1,8 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
+import styled from 'styled-components'
+
+const StyledNav = styled.nav`
+margin-bottom: 10px;
+`;
 
 const Navbar = () => {
   return (
-    <nav className="navbar is-white">
+    <StyledNav className="navbar is-white">
       <div className="container">
         <div className="navbar-brand">
           <a className="navbar-item brand-text" href="../">
@@ -10,7 +15,7 @@ const Navbar = () => {
           </a>
         </div>
       </div>
-    </nav>
+    </StyledNav>
   );
 };
 

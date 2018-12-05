@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Modal extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className={"modal " + (this.props.isVisible ? "is-active" : "")}>

@@ -15,7 +15,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -23,7 +23,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -31,7 +31,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -39,7 +39,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -47,7 +47,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         },
         {
           description: "Hotmart Guitar Evoluti",
@@ -55,7 +55,7 @@ class Purchases extends Component {
           category: "Assinaturas",
           paymentMethod: "Nubank",
           date: "1 jan 2018",
-          nubankId: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
         }
       ]
     };
@@ -78,7 +78,7 @@ class Purchases extends Component {
             title="Expenses"
             actions={[
               { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
-              { text: "Remove", icon: "fa-minus" }
+              { text: "Remove", icon: "fa-minus", callback: () => {} }
             ]}
           >
             {this.renderPurchases()}
@@ -96,6 +96,8 @@ class Purchases extends Component {
   }
 
   renderPurchases() {
+    const total = this.state.purchases.reduce((accum, p) => accum + Number(p.value), 0);
+
     return (
       <table className="table is-fullwidth">
         <thead>
@@ -114,13 +116,13 @@ class Purchases extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.purchases.map(p => (
-            <tr>
+          {this.state.purchases.map((p, idx) => (
+            <tr key={idx}>
               <td>
                 <input type="checkbox" />
               </td>
               <td>
-                <a href="#">{p.description}</a>
+                <a href="#/">{p.description}</a>
               </td>
               <td>R$ {(p.value / 100).toFixed(2)}</td>
               <td>{p.category}</td>
@@ -132,6 +134,19 @@ class Purchases extends Component {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+        <tr>
+          <th/>
+          <th>Total</th>
+          <th>R$ {(total / 100).toFixed(2)}</th>
+          <th/>
+          <th/>
+          <th/>
+          <th/>
+          <th/>
+          <th/>
+        </tr>
+        </tfoot>
       </table>
     );
   }

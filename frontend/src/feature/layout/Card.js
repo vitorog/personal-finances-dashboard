@@ -11,20 +11,17 @@ class Card extends Component {
   }
 
   toggleCollapse() {
-    console.log("HERE");
-    console.log(this.state.collapsed);
     this.setState({ collapsed: !this.state.collapsed });
-    console.log(this.state.collapsed);
   }
 
   render() {
     return (
-      <div className="card events-card">
+      <div className="card">
         <header className="card-header">
           <p className="card-header-title">{this.props.title}</p>
           <nav className="level">
             {this.props.actions.map(action => (
-              <div className="level-item">
+              <div className="level-item" key={action.text}>
                 <a className="button" onClick={action.callback}>
                   <span className="icon is-small">
                     <i className={"fa " + action.icon} />
@@ -34,7 +31,7 @@ class Card extends Component {
               </div>
             ))}
             <a
-              href="#"
+              href="#/"
               className="card-header-icon"
               aria-label="more options"
               onClick={this.toggleCollapse}
@@ -54,7 +51,7 @@ class Card extends Component {
         </header>
         {!this.state.collapsed ? (
           <div>
-            <div className="card-table">
+            <div className="card-content">
               <div className="content">{this.props.children}</div>
             </div>
             <div className="card-footer" />
@@ -70,7 +67,7 @@ Card.propTypes = {
   actions: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
-      action: PropTypes.string.isRequired,
+      icon: PropTypes.string.isRequired,
       callback: PropTypes.func.isRequired
     })
   )
