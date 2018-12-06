@@ -1,8 +1,8 @@
 import React from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const StyledNav = styled.nav`
-margin-bottom: 10px;
+  margin-bottom: 10px;
 `;
 
 const Navbar = () => {

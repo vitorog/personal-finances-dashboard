@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Card from "../layout/Card";
 import Modal from "../layout/Modal";
 import AddExpenseModal from "./AddExpenseModal";
+import ExpensesFilters from "./ExpensesFilters";
 
 class Purchases extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class Purchases extends Component {
     return (
       <div>
         <section className="section">
-          <Card title="Filtros" />
+          <ExpensesFilters />
         </section>
         <section className="section">
           <Card
@@ -96,7 +97,10 @@ class Purchases extends Component {
   }
 
   renderPurchases() {
-    const total = this.state.purchases.reduce((accum, p) => accum + Number(p.value), 0);
+    const total = this.state.purchases.reduce(
+      (accum, p) => accum + Number(p.value),
+      0
+    );
 
     return (
       <table className="table is-fullwidth">
@@ -135,17 +139,17 @@ class Purchases extends Component {
           ))}
         </tbody>
         <tfoot>
-        <tr>
-          <th/>
-          <th>Total</th>
-          <th>R$ {(total / 100).toFixed(2)}</th>
-          <th/>
-          <th/>
-          <th/>
-          <th/>
-          <th/>
-          <th/>
-        </tr>
+          <tr>
+            <th />
+            <th>Total</th>
+            <th>R$ {(total / 100).toFixed(2)}</th>
+            <th />
+            <th />
+            <th />
+            <th />
+            <th />
+            <th />
+          </tr>
         </tfoot>
       </table>
     );

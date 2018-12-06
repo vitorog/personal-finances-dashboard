@@ -54,7 +54,13 @@ class Card extends Component {
             <div className="card-content">
               <div className="content">{this.props.children}</div>
             </div>
-            <div className="card-footer" />
+            <div className="card-footer">
+              {this.props.footerActions.map(action => (
+                <a href="#/" className="card-footer-item">
+                  {action.text}
+                </a>
+              ))}
+            </div>
           </div>
         ) : null}
       </div>
@@ -70,12 +76,20 @@ Card.propTypes = {
       icon: PropTypes.string.isRequired,
       callback: PropTypes.func.isRequired
     })
+  ),
+  footerActions: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      icon: PropTypes.string.isRequired,
+      callback: PropTypes.func.isRequired
+    })
   )
 };
 
 // Specifies the default values for props:
 Card.defaultProps = {
-  actions: []
+  actions: [],
+  footerActions: []
 };
 
 export default Card;

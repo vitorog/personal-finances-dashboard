@@ -8,9 +8,7 @@ const Breadcrumb = () => {
           <a href="../">Contas</a>
         </li>
         <li className="is-active">
-          <a href="#/">
-            Dashboard
-          </a>
+          <a href="#/">Dashboard</a>
         </li>
       </ul>
     </nav>

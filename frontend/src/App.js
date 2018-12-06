@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Sidebar from "./feature/layout/Sidebar";
 import Navbar from "./feature/layout/Navbar";
 import Breadcrumb from "./feature/layout/Breadcrumb";
-import Purchases from "./feature/dashboard/Expenses";
+import Purchases from "./feature/expenses/Expenses";
 
 class App extends Component {
   render() {
