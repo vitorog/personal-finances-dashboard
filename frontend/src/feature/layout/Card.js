@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Dropdown from "./Dropdown";
 
 class Card extends Component {
   constructor(props) {
@@ -18,24 +19,21 @@ class Card extends Component {
     return (
       <div className="card">
         <header className="card-header">
-          <p className="card-header-title">{this.props.title}</p>
+          <div className="card-header-title">
+            <div className="level">
+              <p className="level-item">Test</p>
+              <Dropdown className="level-item" title="Actions" actions={this.props.actions}/>
+            </div>
+          </div>
           <nav className="level">
-            {this.props.actions.map(action => (
-              <div className="level-item" key={action.text}>
-                <a className="button" onClick={action.callback}>
-                  <span className="icon is-small">
-                    <i className={"fa " + action.icon} />
-                  </span>
-                  <span>{action.text}</span>
-                </a>
-              </div>
-            ))}
-            <a
-              href="#/"
-              className="card-header-icon"
-              aria-label="more options"
-              onClick={this.toggleCollapse}
-            >
+
+            <div className="level-right">
+              <a
+                href="#/"
+                className="card-header-icon"
+                aria-label="more options"
+                onClick={this.toggleCollapse}
+              >
               <span className="icon">
                 <i
                   className={
@@ -46,7 +44,8 @@ class Card extends Component {
                   aria-hidden="true"
                 />
               </span>
-            </a>
+              </a>
+            </div>
           </nav>
         </header>
         {!this.state.collapsed ? (
