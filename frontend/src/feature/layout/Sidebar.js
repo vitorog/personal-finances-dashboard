@@ -1,18 +1,27 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const isActiveRoute = path => {
+  return path === window.location.pathname ? "is-active" : null;
+};
 
 const Sidebar = () => {
   return (
     <aside className="menu is-hidden-mobile">
-      <p className="menu-label">Contas</p>
+      <p className="menu-label">Finances</p>
       <ul className="menu-list">
         <li>
-          <a className="is-active">Dashboard</a>
+          <Link to="/dashboard" className={isActiveRoute("/dashboard")}>
+            Dashboard
+          </Link>
         </li>
         <li>
-          <a>Gastos</a>
+          <Link to="/expenses" className={isActiveRoute("/expenses")}>
+            Expenses
+          </Link>
         </li>
         <li>
-          <a>Categorias</a>
+          <a>Categories</a>
         </li>
       </ul>
     </aside>

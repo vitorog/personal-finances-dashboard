@@ -55,8 +55,8 @@ const ExpensesFilters = () => {
       </div>
 
       <div className="buttons">
-        <button className="button">Apply</button>
-        <button className="button">Reset</button>
+        <button className="button is-info">Apply</button>
+        <button className="button is-light">Reset</button>
       </div>
     </Card>
   );

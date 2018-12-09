@@ -3,6 +3,13 @@ import Card from "../layout/Card";
 import Modal from "../layout/Modal";
 import AddExpenseModal from "./AddExpenseModal";
 import ExpensesFilters from "./ExpensesFilters";
+import styled from "styled-components";
+
+const StyledSection = styled.section`
+  && {
+    padding: 10px;
+  }
+`;
 
 class Purchases extends Component {
   constructor(props) {
@@ -71,10 +78,10 @@ class Purchases extends Component {
   render() {
     return (
       <div>
-        <section className="section">
+        <StyledSection className="section">
           <ExpensesFilters />
-        </section>
-        <section className="section">
+        </StyledSection>
+        <StyledSection className="section">
           <Card
             title="Expenses"
             actions={[
@@ -84,7 +91,7 @@ class Purchases extends Component {
           >
             {this.renderPurchases()}
           </Card>
-        </section>
+        </StyledSection>
         <Modal
           title="Add Expense"
           isVisible={this.state.isAddModalVisible}
