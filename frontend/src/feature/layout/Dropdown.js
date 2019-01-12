@@ -1,27 +1,34 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isActive: false,
+      isActive: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
   }
 
   toggleDropdown() {
-    this.setState({isActive: !this.state.isActive});
+    this.setState({ isActive: !this.state.isActive });
   }
 
   render() {
     return (
-      <div className={this.state.isActive ? "dropdown is-active" : "is-active"} onClick={this.toggleDropdown}>
+      <div
+        className={this.state.isActive ? "dropdown is-active" : "is-active"}
+        onClick={this.toggleDropdown}
+      >
         <div className="dropdown-trigger">
-          <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
+          <button
+            className="button"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu"
+          >
             <span>{this.props.title}</span>
             <span className="icon is-small">
-              <i className="fa fa-angle-down" aria-hidden="true"/>
+              <i className="fa fa-angle-down" aria-hidden="true" />
             </span>
           </button>
         </div>
@@ -37,7 +44,8 @@ class Dropdown extends Component {
             ))}
           </div>
         </div>
-      </div>)
+      </div>
+    );
   }
 }
 

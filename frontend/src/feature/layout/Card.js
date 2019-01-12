@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  && {
+    margin-left: 1em;
+  }
+`;
 
 class Card extends Component {
   constructor(props) {
@@ -21,12 +28,17 @@ class Card extends Component {
         <header className="card-header">
           <div className="card-header-title">
             <div className="level">
-              <p className="level-item">Test</p>
-              <Dropdown className="level-item" title="Actions" actions={this.props.actions}/>
+              <div className="level-item">{this.props.title}</div>
+              <StyledDiv>
+                <Dropdown
+                  className="level-item"
+                  title="Actions"
+                  actions={this.props.actions}
+                />
+              </StyledDiv>
             </div>
           </div>
           <nav className="level">
-
             <div className="level-right">
               <a
                 href="#/"
@@ -34,16 +46,16 @@ class Card extends Component {
                 aria-label="more options"
                 onClick={this.toggleCollapse}
               >
-              <span className="icon">
-                <i
-                  className={
-                    !this.state.collapsed
-                      ? "fa fa-angle-down"
-                      : "fa fa-angle-up"
-                  }
-                  aria-hidden="true"
-                />
-              </span>
+                <span className="icon">
+                  <i
+                    className={
+                      !this.state.collapsed
+                        ? "fa fa-angle-down"
+                        : "fa fa-angle-up"
+                    }
+                    aria-hidden="true"
+                  />
+                </span>
               </a>
             </div>
           </nav>

@@ -17,12 +17,14 @@ class Modal extends Component {
           </header>
           <section className="modal-card-body">{this.props.children}</section>
           <footer className="modal-card-foot">
-            {this.props.buttons.map(btn => (
-              <button className="button" onClick={btn.callback} />
-            ))}
             <button className="button" onClick={this.props.toggleModal}>
               Close
             </button>
+            {this.props.buttons.map(btn => (
+              <button className="button" onClick={btn.callback}>
+                {btn.title}
+              </button>
+            ))}
           </footer>
         </div>
       </div>

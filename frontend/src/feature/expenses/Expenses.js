@@ -4,6 +4,7 @@ import Modal from "../layout/Modal";
 import AddExpenseModal from "./AddExpenseModal";
 import ExpensesFilters from "./ExpensesFilters";
 import styled from "styled-components";
+import db from "../../utils/database";
 
 const StyledSection = styled.section`
   && {
@@ -11,68 +12,24 @@ const StyledSection = styled.section`
   }
 `;
 
-class Purchases extends Component {
+class Expenses extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isAddModalVisible: false,
-      purchases: [
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        },
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        },
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        },
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        },
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        },
-        {
-          description: "Hotmart Guitar Evoluti",
-          value: "5700",
-          category: "Assinaturas",
-          paymentMethod: "Nubank",
-          date: "1 jan 2018",
-          id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-        }
-      ]
+      purchases: db.get("expenses").value()
     };
 
     this.toggleAddModal = this.toggleAddModal.bind(this);
+    this.addExpense = this.addExpense.bind(this);
   }
 
   toggleAddModal() {
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
+  }
+
+  addExpense(expense) {
+    console.log(expense);
   }
 
   render() {
@@ -96,6 +53,7 @@ class Purchases extends Component {
           title="Add Expense"
           isVisible={this.state.isAddModalVisible}
           toggleModal={this.toggleAddModal}
+          buttons={[{ title: "Ok", callback: this.addExpense }]}
         >
           <AddExpenseModal />
         </Modal>
@@ -163,4 +121,4 @@ class Purchases extends Component {
   }
 }
 
-export default Purchases;
+export default Expenses;
