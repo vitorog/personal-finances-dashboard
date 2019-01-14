@@ -35,7 +35,12 @@ class Dropdown extends Component {
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
             {this.props.actions.map(action => (
-              <a className="dropdown-item" href="#" onClick={action.callback}>
+              <a
+                className="dropdown-item"
+                href="#"
+                onClick={action.callback}
+                key={action.text}
+              >
                 <span className="icon is-small">
                   <i className={"fa " + action.icon} />
                 </span>

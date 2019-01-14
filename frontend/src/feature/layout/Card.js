@@ -30,11 +30,11 @@ class Card extends Component {
             <div className="level">
               <div className="level-item">{this.props.title}</div>
               <StyledDiv>
-                <Dropdown
+                {this.props.actions.length > 0 ? (<Dropdown
                   className="level-item"
                   title="Actions"
                   actions={this.props.actions}
-                />
+                />) : null}
               </StyledDiv>
             </div>
           </div>

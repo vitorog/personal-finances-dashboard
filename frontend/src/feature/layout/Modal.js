@@ -25,6 +25,7 @@ class Modal extends Component {
                 {btn.title}
               </button>
             ))}
+            {this.props.submitButton}
           </footer>
         </div>
       </div>
@@ -35,7 +36,8 @@ class Modal extends Component {
 Modal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  buttons: PropTypes.array
+  buttons: PropTypes.array,
+  submitButton: PropTypes.element
 };
 
 Modal.defaultProps = {

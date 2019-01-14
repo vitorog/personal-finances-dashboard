@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Card from "../layout/Card";
-import Modal from "../layout/Modal";
 import AddExpenseModal from "./AddExpenseModal";
 import ExpensesFilters from "./ExpensesFilters";
 import styled from "styled-components";
 import db from "../../utils/database";
+import objectHash from "object-hash";
 
 const StyledSection = styled.section`
   && {
@@ -29,7 +29,11 @@ class Expenses extends Component {
   }
 
   addExpense(expense) {
-    console.log(expense);
+    expense.id = objectHash(expense);
+
+    db.get("expenses")
+      .push(expense)
+      .write();
   }
 
   render() {
@@ -49,14 +53,11 @@ class Expenses extends Component {
             {this.renderPurchases()}
           </Card>
         </StyledSection>
-        <Modal
-          title="Add Expense"
-          isVisible={this.state.isAddModalVisible}
+        <AddExpenseModal
+          handleAddExpense={this.addExpense}
+          isAddModalVisible={this.state.isAddModalVisible}
           toggleModal={this.toggleAddModal}
-          buttons={[{ title: "Ok", callback: this.addExpense }]}
-        >
-          <AddExpenseModal />
-        </Modal>
+        />
       </div>
     );
   }
