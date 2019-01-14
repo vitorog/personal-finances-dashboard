@@ -144,7 +144,7 @@ class AddExpenseModal extends Component {
 }
 
 AddExpenseModal.propTypes = {
-  isVisible: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
   handleAddExpense: PropTypes.func.isRequired,
 };

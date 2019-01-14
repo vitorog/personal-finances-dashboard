@@ -55,7 +55,7 @@ class Expenses extends Component {
         </StyledSection>
         <AddExpenseModal
           handleAddExpense={this.addExpense}
-          isAddModalVisible={this.state.isAddModalVisible}
+          isVisible={this.state.isAddModalVisible}
           toggleModal={this.toggleAddModal}
         />
       </div>
