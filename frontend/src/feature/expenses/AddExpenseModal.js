@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Modal from "../layout/Modal";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 class AddExpenseModal extends Component {
   render() {
