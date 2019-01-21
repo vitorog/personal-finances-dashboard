@@ -13,6 +13,7 @@ const Navbar = () => {
           <a className="navbar-item brand-text" href="../">
             Personal Finances
           </a>
+          <div className="tags"> <div className="tag is-danger">WIP</div></div>
         </div>
       </div>
     </StyledNav>
