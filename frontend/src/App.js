@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import {Route, Redirect, HashRouter} from "react-router-dom";
 
 import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";
@@ -11,7 +11,7 @@ import Configuration from "./feature/configuration/Configuration";
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className="App">
           <Navbar />
           <div className="container">
@@ -35,7 +35,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
