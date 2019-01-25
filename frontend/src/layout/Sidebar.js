@@ -21,7 +21,9 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <a>Categories</a>
+          <Link to="/configuration" className={isActiveRoute("/configuration")}>
+            Configuration
+          </Link>
         </li>
       </ul>
     </aside>

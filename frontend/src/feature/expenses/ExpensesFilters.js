@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../layout/Card";
+import Card from "../../layout/Card";
 
 const ExpensesFilters = () => {
   return (

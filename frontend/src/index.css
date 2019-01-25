@@ -5,3 +5,8 @@ html, body {
   background: #ECF0F3;
   height: 100%;
 }
+
+
+.is-checkbox-col {
+    width: 0
+}

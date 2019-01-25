@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Modal from "../layout/Modal";
+import Modal from "../../layout/Modal";
 import moment from "moment";
 import PropTypes from "prop-types";
 
@@ -146,7 +146,7 @@ class AddExpenseModal extends Component {
 AddExpenseModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  handleAddExpense: PropTypes.func.isRequired,
+  handleAddExpense: PropTypes.func.isRequired
 };
 
 export default AddExpenseModal;

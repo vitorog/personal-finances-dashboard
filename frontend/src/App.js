@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
-import Sidebar from "./feature/layout/Sidebar";
-import Navbar from "./feature/layout/Navbar";
-import Breadcrumb from "./feature/layout/Breadcrumb";
+import Sidebar from "./layout/Sidebar";
+import Navbar from "./layout/Navbar";
+import Breadcrumb from "./layout/Breadcrumb";
 import Purchases from "./feature/expenses/Expenses";
 import Dashboard from "./feature/dashboard/Dashboard";
+import Configuration from "./feature/configuration/Configuration";
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
                   />
                   <Route path="/dashboard" component={Dashboard} />
                   <Route path="/expenses" component={Purchases} />
+                  <Route path="/configuration" component={Configuration} />
                 </div>
               </div>
             </div>

@@ -64,6 +64,14 @@ const db = (() => {
 
   db.set("expenses", expenses).write();
 
+  const categories = ["Fixed", "Food", "Transportation"];
+
+  db.set("categories", categories).write();
+
+  const paymentMethods = ["Cash", "Nubank"];
+
+  db.set("paymentMethods", paymentMethods).write();
+
   return db;
 })();
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Card from "../layout/Card";
+import Card from "../../layout/Card";
 import AddExpenseModal from "./AddExpenseModal";
 import ExpensesFilters from "./ExpensesFilters";
 import styled from "styled-components";
@@ -72,7 +72,7 @@ class Expenses extends Component {
       <table className="table is-fullwidth">
         <thead>
           <tr>
-            <th>
+            <th className="is-checkbox-col">
               <input type="checkbox" />
             </th>
             <th>Description</th>
@@ -80,9 +80,9 @@ class Expenses extends Component {
             <th>Category</th>
             <th>Payment</th>
             <th>Date</th>
-            <th># Months</th>
-            <th>Comments</th>
-            <th>Split</th>
+            {/*<th># Months</th>*/}
+            {/*<th>Comments</th>*/}
+            {/*<th>Split</th>*/}
           </tr>
         </thead>
         <tbody>
@@ -98,9 +98,9 @@ class Expenses extends Component {
               <td>{p.category}</td>
               <td>{p.paymentMethod}</td>
               <td>{p.date}</td>
-              <td>{p.months}</td>
-              <td>{p.comments}</td>
-              <td>{p.split}</td>
+              {/*<td>{p.months}</td>*/}
+              {/*<td>{p.comments}</td>*/}
+              {/*<td>{p.split}</td>*/}
             </tr>
           ))}
         </tbody>
@@ -113,8 +113,8 @@ class Expenses extends Component {
             <th />
             <th />
             <th />
-            <th />
-            <th />
+            {/*<th />*/}
+            {/*<th />*/}
           </tr>
         </tfoot>
       </table>
