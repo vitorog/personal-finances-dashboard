@@ -24,7 +24,7 @@ class Card extends Component {
 
   render() {
     return (
-      <div className="card">
+      <div className="card animated fadeIn">
         <header className="card-header">
           <div className="card-header-title">
             <div className="level">
@@ -43,7 +43,6 @@ class Card extends Component {
           <nav className="level">
             <div className="level-right">
               <a
-                href="#/"
                 className="card-header-icon"
                 aria-label="more options"
                 onClick={this.toggleCollapse}

@@ -37,7 +37,6 @@ class Dropdown extends Component {
             {this.props.actions.map(action => (
               <a
                 className="dropdown-item"
-                href="#"
                 onClick={action.callback}
                 key={action.text}
               >
