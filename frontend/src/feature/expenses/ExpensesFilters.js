@@ -1,7 +1,10 @@
 import React from "react";
 import Card from "../../layout/Card";
+import db from "../../utils/database";
 
 const ExpensesFilters = () => {
+  const categories = db.get("categories").value();
+  const paymentMethods = db.get("paymentMethods").value();
   return (
     <Card title="Filters">
       <div className="columns">
@@ -12,7 +15,11 @@ const ExpensesFilters = () => {
             </div>
             <div className="field-body">
               <div className="control">
-                <input className="input" type="text" placeholder="Text input" />
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Type a description"
+                />
               </div>
             </div>
           </div>
@@ -26,8 +33,11 @@ const ExpensesFilters = () => {
               <div className="control">
                 <div className="select">
                   <select>
-                    <option>Category 1</option>
-                    <option>Category 2</option>
+                    {categories.map(category => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -44,8 +54,11 @@ const ExpensesFilters = () => {
               <div className="control">
                 <div className="select">
                   <select>
-                    <option>Nubank</option>
-                    <option>Cash</option>
+                    {paymentMethods.map(method => (
+                      <option key={method} value={method}>
+                        {method}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

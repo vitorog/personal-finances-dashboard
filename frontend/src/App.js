@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Route, Redirect, HashRouter} from "react-router-dom";
+import { Route, Redirect, HashRouter } from "react-router-dom";
 
 import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";

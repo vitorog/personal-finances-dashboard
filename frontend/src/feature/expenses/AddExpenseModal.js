@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import Modal from "../../layout/Modal";
 import moment from "moment";
 import PropTypes from "prop-types";
+import db from "../../utils/database";
 
 class AddExpenseModal extends Component {
   render() {
     const formName = "addExpenseForm";
     const today = moment().format("YYYY-MM-DD");
+    const categories = db.get("categories").value();
+    const paymentMethods = db.get("paymentMethods").value();
     return (
       <Modal
         title="Add Expense"
@@ -24,8 +27,8 @@ class AddExpenseModal extends Component {
             description: "",
             value: 0,
             numMonths: 1,
-            category: "category2",
-            paymentMethod: "nubank",
+            category: categories[0],
+            paymentMethod: paymentMethods[0],
             date: today
           }}
           onSubmit={(values, { setSubmitting }) => {
@@ -69,8 +72,11 @@ class AddExpenseModal extends Component {
                       onBlur={handleBlur}
                       value={values.category}
                     >
-                      <option value="category1">Category 1</option>
-                      <option value="category2">Category 2</option>
+                      {categories.map(category => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -86,8 +92,11 @@ class AddExpenseModal extends Component {
                       onBlur={handleBlur}
                       value={values.payment}
                     >
-                      <option value="nubank">nubank</option>
-                      <option value="cash">cash</option>
+                      {paymentMethods.map(method => (
+                        <option key={method} value={method}>
+                          {method}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

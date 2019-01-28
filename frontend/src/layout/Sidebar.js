@@ -1,27 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-const isActiveRoute = path => {
-  return path === window.location.pathname ? "is-active" : null;
+const isActiveRoute = (currentRoute, menuPath) => {
+  return menuPath === currentRoute ? "is-active" : null;
 };
 
-const Sidebar = () => {
+const Sidebar = props => {
+  const currentRoute = props.location.pathname;
   return (
     <aside className="menu is-hidden-mobile">
       <p className="menu-label">Finances</p>
       <ul className="menu-list">
         <li>
-          <Link to="/dashboard" className={isActiveRoute("/dashboard")}>
+          <Link
+            to="/dashboard"
+            className={isActiveRoute(currentRoute, "/dashboard")}
+          >
             Dashboard
           </Link>
         </li>
         <li>
-          <Link to="/expenses" className={isActiveRoute("/expenses")}>
+          <Link
+            to="/expenses"
+            className={isActiveRoute(currentRoute, "/expenses")}
+          >
             Expenses
           </Link>
         </li>
         <li>
-          <Link to="/configuration" className={isActiveRoute("/configuration")}>
+          <Link
+            to="/configuration"
+            className={isActiveRoute(currentRoute, "/configuration")}
+          >
             Configuration
           </Link>
         </li>
@@ -30,4 +40,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default withRouter(Sidebar);
