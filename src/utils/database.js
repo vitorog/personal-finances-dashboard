@@ -15,7 +15,7 @@ const db = (() => {
     {
       description: "Hotmart Guitar Evoluti",
       value: "5700",
-      category: "Assinaturas",
+      category: "Subscriptions",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
@@ -23,7 +23,7 @@ const db = (() => {
     {
       description: "Hotmart Guitar Evoluti",
       value: "5700",
-      category: "Assinaturas",
+      category: "Subscriptions",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
@@ -31,7 +31,7 @@ const db = (() => {
     {
       description: "Hotmart Guitar Evoluti",
       value: "5700",
-      category: "Assinaturas",
+      category: "Subscriptions",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
@@ -39,7 +39,15 @@ const db = (() => {
     {
       description: "Hotmart Guitar Evoluti",
       value: "5700",
-      category: "Assinaturas",
+      category: "Subscriptions",
+      paymentMethod: "Nubank",
+      date: "1 jan 2018",
+      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+    },
+    {
+      description: "Sandwich",
+      value: "3600",
+      category: "Food",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
@@ -47,15 +55,7 @@ const db = (() => {
     {
       description: "Hotmart Guitar Evoluti",
       value: "5700",
-      category: "Assinaturas",
-      paymentMethod: "Nubank",
-      date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-    },
-    {
-      description: "Hotmart Guitar Evoluti",
-      value: "5700",
-      category: "Assinaturas",
+      category: "Subscriptions",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
@@ -64,7 +64,7 @@ const db = (() => {
 
   db.set("expenses", expenses).write();
 
-  const categories = ["Fixed", "Food", "Transportation"];
+  const categories = ["Fixed", "Subscriptions", "Food", "Transportation"];
 
   db.set("categories", categories).write();
 

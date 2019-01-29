@@ -17,40 +17,67 @@ class Expenses extends Component {
     super(props);
     this.state = {
       isAddModalVisible: false,
-      purchases: db.get("expenses").value()
+      filters: null
     };
-
-    this.toggleAddModal = this.toggleAddModal.bind(this);
-    this.addExpense = this.addExpense.bind(this);
   }
 
-  toggleAddModal() {
+  toggleAddModal = () =>
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
-  }
 
-  addExpense(expense) {
+  addExpense = expense => {
     expense.id = objectHash(expense);
 
     db.get("expenses")
       .push(expense)
       .write();
-  }
+  };
+
+  handleApplyFilters = filters => {
+    this.setState({filters});
+  };
+
+  handleResetFilters = () => {
+    this.setState({filters: null})
+  };
 
   render() {
+    const categories = db.get("categories").value();
+    const paymentMethods = db.get("paymentMethods").value();
+    const filters = this.state.filters;
+
+    const purchases = db.get("expenses").value().filter(p => {
+      if(!this.state.filters){
+        return true;
+      }
+
+      let result = true;
+      for(let key in filters){
+        if(filters.hasOwnProperty(key) && filters[key]){
+          result = result && filters[key] === p[key];
+        }
+      }
+      return result;
+    });
+
     return (
       <div>
         <StyledSection className="section">
-          <ExpensesFilters />
+          <ExpensesFilters
+            categories={categories}
+            paymentMethods={paymentMethods}
+            handleApplyFilters={this.handleApplyFilters}
+            handleResetFilters={this.handleResetFilters}
+          />
         </StyledSection>
         <StyledSection className="section">
           <Card
-            title="Expenses"
+            title={(this.state.filters ? "Filtered " : "") + "Expenses"}
             actions={[
               { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
               { text: "Remove", icon: "fa-minus", callback: () => {} }
             ]}
           >
-            {this.renderPurchases()}
+            {this.renderPurchases(purchases)}
           </Card>
         </StyledSection>
         <AddExpenseModal
@@ -62,11 +89,8 @@ class Expenses extends Component {
     );
   }
 
-  renderPurchases() {
-    const total = this.state.purchases.reduce(
-      (accum, p) => accum + Number(p.value),
-      0
-    );
+  renderPurchases(purchases) {
+    const total = purchases.reduce((accum, p) => accum + Number(p.value), 0);
 
     return (
       <table className="table is-fullwidth">
@@ -86,7 +110,7 @@ class Expenses extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.purchases.map((p, idx) => (
+          {purchases.map((p, idx) => (
             <tr key={idx}>
               <td>
                 <input type="checkbox" />
