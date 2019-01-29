@@ -7,6 +7,7 @@ import Breadcrumb from "./layout/Breadcrumb";
 import Purchases from "./feature/expenses/Expenses";
 import Dashboard from "./feature/dashboard/Dashboard";
 import Configuration from "./feature/configuration/Configuration";
+import Income from "./feature/income/Income";
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
                     render={() => <Redirect to="/dashboard" />}
                   />
                   <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/income" component={Income} />
                   <Route path="/expenses" component={Purchases} />
                   <Route path="/configuration" component={Configuration} />
                 </div>

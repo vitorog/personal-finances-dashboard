@@ -21,9 +21,9 @@ const SimpleTable = props => {
               <td>
                 <input type="checkbox" />
               </td>
-              {/*TODO: Adjust it to make it work with multiple columns*/}
+              {/*TODO: Adjust it to make it work with multiple columns properly*/}
               {props.header.map(header => (
-                <td key={header}>{row}</td>
+                <td key={header}>{row[header.toLowerCase()] ? row[header.toLowerCase()] : row}</td>
               ))}
             </tr>
           ))}

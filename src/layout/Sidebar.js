@@ -21,6 +21,14 @@ const Sidebar = props => {
         </li>
         <li>
           <Link
+            to="/income"
+            className={isActiveRoute(currentRoute, "/income")}
+          >
+            Income
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/expenses"
             className={isActiveRoute(currentRoute, "/expenses")}
           >
