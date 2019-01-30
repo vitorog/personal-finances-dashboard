@@ -14,7 +14,7 @@ class Income extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAddModalVisible: false,
+      isAddModalVisible: false
     };
   }
 
@@ -22,7 +22,7 @@ class Income extends Component {
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
 
   render() {
-    const income = db.get('income').value();
+    const income = db.get("income").value();
 
     return (
       <div>
@@ -44,7 +44,15 @@ class Income extends Component {
   renderIncome(income) {
     const total = income.reduce((accum, p) => accum + Number(p.value), 0);
     return (
-      <SimpleTable header={["Description", "Value", "Date"]} data={income} footer={null} />
+      <SimpleTable
+        headers={[
+          { name: "Description", accessor: "description" },
+          { name: "Value", accessor: "value", type: "currency" },
+          { name: "Date", accessor: "date" }
+        ]}
+        data={income}
+        footer={{ description: "Total", value: total, type: "currency" }}
+      />
     );
   }
 }

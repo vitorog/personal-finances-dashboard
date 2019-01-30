@@ -24,7 +24,7 @@ class Configuration extends Component {
             ]}
           >
             <SimpleTable
-              header={["Payment Method"]}
+              headers={[{ name: "Payment Method" }]}
               data={this.state.paymentMethods}
             />
           </Card>
@@ -37,7 +37,10 @@ class Configuration extends Component {
               { text: "Remove", icon: "fa-minus", callback: () => {} }
             ]}
           >
-            <SimpleTable header={["Category"]} data={this.state.categories} />
+            <SimpleTable
+              headers={[{ name: "Category", value: "category" }]}
+              data={this.state.categories}
+            />
           </Card>
         </div>
       </div>

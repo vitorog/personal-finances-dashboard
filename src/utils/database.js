@@ -72,11 +72,13 @@ const db = (() => {
 
   db.set("paymentMethods", paymentMethods).write();
 
-  const income = [{
-    description: 'Salary',
-    value: 1000,
-    date: "1 jan de 2018"
-  }];
+  const income = [
+    {
+      description: "Salary",
+      value: 1000,
+      date: "1 jan de 2018"
+    }
+  ];
 
   db.set("income", income).write();
 

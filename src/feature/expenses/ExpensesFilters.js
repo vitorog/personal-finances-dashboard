@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../../layout/Card";
 import PropTypes from "prop-types";
-import {Form, Field, Formik} from "formik";
+import { Form, Field, Formik } from "formik";
 
 const ExpensesFilters = props => {
   const {
@@ -91,7 +91,11 @@ const ExpensesFilters = props => {
           <button className="button is-info" type="submit">
             Apply
           </button>
-          <button className="button is-light" type="button" onClick={handleResetFilters}>
+          <button
+            className="button is-light"
+            type="button"
+            onClick={handleResetFilters}
+          >
             Reset
           </button>
         </div>
@@ -100,18 +104,20 @@ const ExpensesFilters = props => {
   );
 };
 
-const ExpenseFiltersFormik = props => (<Formik
-  initialValues={{
-    description: "",
-    category: props.categories[0],
-    paymentMethod: props.paymentMethods[0],
-  }}
-  onSubmit={(values, { setSubmitting }) => {
-    setSubmitting(false);
-    props.handleApplyFilters(values);
-  }}
-  render={formikProps => (<ExpensesFilters {...props} {...formikProps}/>)}
-/>);
+const ExpenseFiltersFormik = props => (
+  <Formik
+    initialValues={{
+      description: "",
+      category: props.categories[0],
+      paymentMethod: props.paymentMethods[0]
+    }}
+    onSubmit={(values, { setSubmitting }) => {
+      setSubmitting(false);
+      props.handleApplyFilters(values);
+    }}
+    render={formikProps => <ExpensesFilters {...props} {...formikProps} />}
+  />
+);
 
 ExpenseFiltersFormik.propTypes = {
   handleApplyFilters: PropTypes.func.isRequired,

@@ -5,6 +5,7 @@ import ExpensesFilters from "./ExpensesFilters";
 import styled from "styled-components";
 import db from "../../utils/database";
 import objectHash from "object-hash";
+import SimpleTable from "../../layout/SimpleTable";
 
 const StyledSection = styled.section`
   && {
@@ -33,11 +34,11 @@ class Expenses extends Component {
   };
 
   handleApplyFilters = filters => {
-    this.setState({filters});
+    this.setState({ filters });
   };
 
   handleResetFilters = () => {
-    this.setState({filters: null})
+    this.setState({ filters: null });
   };
 
   render() {
@@ -45,19 +46,22 @@ class Expenses extends Component {
     const paymentMethods = db.get("paymentMethods").value();
     const filters = this.state.filters;
 
-    const purchases = db.get("expenses").value().filter(p => {
-      if(!this.state.filters){
-        return true;
-      }
-
-      let result = true;
-      for(let key in filters){
-        if(filters.hasOwnProperty(key) && filters[key]){
-          result = result && filters[key] === p[key];
+    const purchases = db
+      .get("expenses")
+      .value()
+      .filter(p => {
+        if (!this.state.filters) {
+          return true;
         }
-      }
-      return result;
-    });
+
+        let result = true;
+        for (let key in filters) {
+          if (filters.hasOwnProperty(key) && filters[key]) {
+            result = result && filters[key] === p[key];
+          }
+        }
+        return result;
+      });
 
     return (
       <div>
@@ -91,57 +95,19 @@ class Expenses extends Component {
 
   renderPurchases(purchases) {
     const total = purchases.reduce((accum, p) => accum + Number(p.value), 0);
-
+    console.log(total);
     return (
-      <table className="table is-fullwidth">
-        <thead>
-          <tr>
-            <th className="is-checkbox-col">
-              <input type="checkbox" />
-            </th>
-            <th>Description</th>
-            <th>Value</th>
-            <th>Category</th>
-            <th>Payment</th>
-            <th>Date</th>
-            {/*<th># Months</th>*/}
-            {/*<th>Comments</th>*/}
-            {/*<th>Split</th>*/}
-          </tr>
-        </thead>
-        <tbody>
-          {purchases.map((p, idx) => (
-            <tr key={idx}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>
-                <a href="#/">{p.description}</a>
-              </td>
-              <td>R$ {(p.value / 100).toFixed(2)}</td>
-              <td>{p.category}</td>
-              <td>{p.paymentMethod}</td>
-              <td>{p.date}</td>
-              {/*<td>{p.months}</td>*/}
-              {/*<td>{p.comments}</td>*/}
-              {/*<td>{p.split}</td>*/}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th />
-            <th>Total</th>
-            <th>R$ {(total / 100).toFixed(2)}</th>
-            <th />
-            <th />
-            <th />
-            <th />
-            {/*<th />*/}
-            {/*<th />*/}
-          </tr>
-        </tfoot>
-      </table>
+      <SimpleTable
+        headers={[
+          { name: "Description", accessor: "description" },
+          { name: "Value", accessor: "value", type: "currency" },
+          { name: "Category", accessor: "category" },
+          { name: "Payment", accessor: "payment" },
+          { name: "Date", accessor: "date" }
+        ]}
+        data={purchases}
+        footer={{ description: "Total", value: total, type: "currency" }}
+      />
     );
   }
 }

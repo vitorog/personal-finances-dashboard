@@ -20,10 +20,7 @@ const Sidebar = props => {
           </Link>
         </li>
         <li>
-          <Link
-            to="/income"
-            className={isActiveRoute(currentRoute, "/income")}
-          >
+          <Link to="/income" className={isActiveRoute(currentRoute, "/income")}>
             Income
           </Link>
         </li>
