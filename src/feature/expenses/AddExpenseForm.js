@@ -130,6 +130,7 @@ const AddExpenseFormWithFormik = props => {
 };
 
 AddExpenseForm.propTypes = {
+  formName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 

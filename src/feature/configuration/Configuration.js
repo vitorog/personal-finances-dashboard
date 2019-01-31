@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import db from "../../utils/database";
 import DataTable from "../../shared/DataTable";
+import TextFieldForm from "../../shared/TextFieldForm";
+import NonEmptyFieldValidator from "../../shared/NonEmptyFieldValidator";
 
 class Configuration extends Component {
   constructor(props) {
@@ -17,24 +19,32 @@ class Configuration extends Component {
         <div className="column">
           <DataTable
             title={"Configure payment methods"}
-            addTitle={""}
+            addTitle={"Add payment method"}
             dataSource={this.state.paymentMethods}
             headers={[{ name: "Payment Method", accessor: "description" }]}
             footer={null}
             formName={"AddPaymentMethodForm"}
-            addForm={null}
+            addForm={
+              <TextFieldForm
+                placeholder="Payment Method"
+                fieldName={"description"}
+                validator={NonEmptyFieldValidator}
+              />
+            }
             syncWithDb={() => {}}
           />
         </div>
         <div className="column">
           <DataTable
-            title={"Configure "}
-            addTitle={""}
+            title={"Configure categories"}
+            addTitle={"Add category"}
             dataSource={this.state.categories}
             headers={[{ name: "Categories", accessor: "description" }]}
             footer={null}
             formName={"AddCategoryForm"}
-            addForm={null}
+            addForm={
+              <TextFieldForm placeholder="Category" fieldName={"description"} />
+            }
             syncWithDb={() => {}}
           />
         </div>

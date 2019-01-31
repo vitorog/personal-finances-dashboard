@@ -60,7 +60,6 @@ const AddIncomeFormWithFormik = props => {
         date: moment().format("YYYY-MM-DD")
       }}
       onSubmit={(values, { setSubmitting }) => {
-        console.log("SUBMIT");
         props.handleSubmit(values);
         setSubmitting(false);
       }}
@@ -70,6 +69,7 @@ const AddIncomeFormWithFormik = props => {
 };
 
 AddIncomeForm.propTypes = {
+  formName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 

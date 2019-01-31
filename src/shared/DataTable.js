@@ -74,27 +74,25 @@ class DataTable extends Component {
   render() {
     return (
       <div>
-        <section className="card-container">
-          <Card
-            title={this.props.title}
-            actions={[
-              {
-                text: "Add",
-                icon: "fa-plus",
-                callback: this.toggleAddModal,
-                isActive: true
-              },
-              {
-                text: "Remove",
-                icon: "fa-minus",
-                callback: this.handleRemove,
-                isActive: this.state.selectedRowsIds.size > 0
-              }
-            ]}
-          >
-            {this.renderData()}
-          </Card>
-        </section>
+        <Card
+          title={this.props.title}
+          actions={[
+            {
+              text: "Add",
+              icon: "fa-plus",
+              callback: this.toggleAddModal,
+              isActive: true
+            },
+            {
+              text: "Remove",
+              icon: "fa-minus",
+              callback: this.handleRemove,
+              isActive: this.state.selectedRowsIds.size > 0
+            }
+          ]}
+        >
+          {this.renderData()}
+        </Card>
         {this.props.addForm ? (
           <Modal
             title={this.props.addTitle}
