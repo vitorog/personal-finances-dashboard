@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Modal from "../../layout/Modal";
 import moment from "moment";
 import PropTypes from "prop-types";
 
@@ -12,11 +11,9 @@ function validateDescription(value) {
   return error;
 }
 
-const AddIncomeModal = props => {
-  const formName = "addIncomeForm";
-
-  const renderForm = () => (
-    <Form id={formName}>
+const AddIncomeForm = props => {
+  return (
+    <Form id={props.formName}>
       <div className="field">
         <label className="label is-pulled-left">Description</label>
         <div className="control">
@@ -52,24 +49,9 @@ const AddIncomeModal = props => {
       </div>
     </Form>
   );
-
-  return (
-    <Modal
-      title="Add Income"
-      isVisible={props.isVisible}
-      toggleModal={props.toggleModal}
-      submitButton={
-        <button className="button" type="submit" form={formName}>
-          Ok
-        </button>
-      }
-    >
-      {renderForm()}
-    </Modal>
-  );
 };
 
-const AddIncomeModalFormik = props => {
+const AddIncomeFormWithFormik = props => {
   return (
     <Formik
       initialValues={{
@@ -78,19 +60,17 @@ const AddIncomeModalFormik = props => {
         date: moment().format("YYYY-MM-DD")
       }}
       onSubmit={(values, { setSubmitting }) => {
-        props.handleAddIncome(values);
+        console.log("SUBMIT");
+        props.handleSubmit(values);
         setSubmitting(false);
-        props.toggleModal();
       }}
-      render={formikProps => <AddIncomeModal {...props} {...formikProps} />}
+      render={formikProps => <AddIncomeForm {...props} {...formikProps} />}
     />
   );
 };
 
-AddIncomeModal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  handleAddIncome: PropTypes.func.isRequired
+AddIncomeForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
 };
 
-export default AddIncomeModalFormik;
+export default AddIncomeFormWithFormik;

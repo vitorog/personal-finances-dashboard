@@ -21,54 +21,30 @@ const db = (() => {
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
     },
     {
-      description: "Hotmart Guitar Evoluti",
-      value: "5700",
-      category: "Subscriptions",
-      paymentMethod: "Nubank",
-      date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-    },
-    {
-      description: "Hotmart Guitar Evoluti",
-      value: "5700",
-      category: "Subscriptions",
-      paymentMethod: "Nubank",
-      date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-    },
-    {
-      description: "Hotmart Guitar Evoluti",
-      value: "5700",
-      category: "Subscriptions",
-      paymentMethod: "Nubank",
-      date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-    },
-    {
       description: "Sandwich",
       value: "3600",
       category: "Food",
       paymentMethod: "Nubank",
       date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
-    },
-    {
-      description: "Hotmart Guitar Evoluti",
-      value: "5700",
-      category: "Subscriptions",
-      paymentMethod: "Nubank",
-      date: "1 jan 2018",
-      id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
+      id: "5a4a2515"
     }
   ];
 
   db.set("expenses", expenses).write();
 
-  const categories = ["Fixed", "Subscriptions", "Food", "Transportation"];
+  const categories = [
+    { id: 0, description: "Fixed" },
+    { id: 1, description: "Subscriptions" },
+    { id: 2, description: "Food" },
+    { id: 3, description: "Transportation" }
+  ];
 
   db.set("categories", categories).write();
 
-  const paymentMethods = ["Cash", "Nubank"];
+  const paymentMethods = [
+    { id: 0, description: "Cash" },
+    { id: 1, description: "Nubank" }
+  ];
 
   db.set("paymentMethods", paymentMethods).write();
 

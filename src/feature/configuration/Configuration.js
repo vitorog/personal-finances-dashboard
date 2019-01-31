@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import SimpleTable from "../../layout/SimpleTable";
-import Card from "../../layout/Card";
 import db from "../../utils/database";
+import DataTable from "../../shared/DataTable";
 
 class Configuration extends Component {
   constructor(props) {
@@ -16,32 +15,28 @@ class Configuration extends Component {
     return (
       <div className="columns">
         <div className="column">
-          <Card
-            title="Configure payment methods"
-            actions={[
-              { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
-              { text: "Remove", icon: "fa-minus", callback: () => {} }
-            ]}
-          >
-            <SimpleTable
-              headers={[{ name: "Payment Method" }]}
-              data={this.state.paymentMethods}
-            />
-          </Card>
+          <DataTable
+            title={"Configure payment methods"}
+            addTitle={""}
+            dataSource={this.state.paymentMethods}
+            headers={[{ name: "Payment Method", accessor: "description" }]}
+            footer={null}
+            formName={"AddPaymentMethodForm"}
+            addForm={null}
+            syncWithDb={() => {}}
+          />
         </div>
         <div className="column">
-          <Card
-            title="Configure categories"
-            actions={[
-              { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
-              { text: "Remove", icon: "fa-minus", callback: () => {} }
-            ]}
-          >
-            <SimpleTable
-              headers={[{ name: "Category", value: "category" }]}
-              data={this.state.categories}
-            />
-          </Card>
+          <DataTable
+            title={"Configure "}
+            addTitle={""}
+            dataSource={this.state.categories}
+            headers={[{ name: "Categories", accessor: "description" }]}
+            footer={null}
+            formName={"AddCategoryForm"}
+            addForm={null}
+            syncWithDb={() => {}}
+          />
         </div>
       </div>
     );

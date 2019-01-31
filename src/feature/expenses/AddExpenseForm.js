@@ -1,14 +1,11 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import Modal from "../../layout/Modal";
 import moment from "moment";
 import PropTypes from "prop-types";
 
-const AddExpenseModal = props => {
-  const formName = "addExpenseForm";
-
-  const renderForm = () => (
-    <Form id={formName}>
+const AddExpenseForm = props => {
+  return (
+    <Form id={props.formName}>
       <div className="field">
         <label className="label is-pulled-left">Description</label>
         <div className="control">
@@ -110,24 +107,9 @@ const AddExpenseModal = props => {
       </div>
     </Form>
   );
-
-  return (
-    <Modal
-      title="Add Expense"
-      isVisible={props.isVisible}
-      toggleModal={props.toggleModal}
-      submitButton={
-        <button className="button" type="submit" form={formName}>
-          Ok
-        </button>
-      }
-    >
-      {renderForm()}
-    </Modal>
-  );
 };
 
-const AddExpensesModalFormik = props => {
+const AddExpenseFormWithFormik = props => {
   return (
     <Formik
       initialValues={{
@@ -139,19 +121,16 @@ const AddExpensesModalFormik = props => {
         date: moment().format("YYYY-MM-DD")
       }}
       onSubmit={(values, { setSubmitting }) => {
-        props.handleAddExpense(values);
+        props.handleSubmit(values);
         setSubmitting(false);
-        props.toggleModal();
       }}
-      render={formikProps => <AddExpenseModal {...props} {...formikProps} />}
+      render={formikProps => <AddExpenseForm {...props} {...formikProps} />}
     />
   );
 };
 
-AddExpenseModal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  handleAddExpense: PropTypes.func.isRequired
+AddExpenseForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
 };
 
-export default AddExpensesModalFormik;
+export default AddExpenseFormWithFormik;

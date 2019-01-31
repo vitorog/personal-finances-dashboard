@@ -16,7 +16,7 @@ class Dropdown extends Component {
   }
 
   handleClickOutside = evt => {
-    this.setState({isActive: false})
+    this.setState({ isActive: false });
   };
 
   render() {
