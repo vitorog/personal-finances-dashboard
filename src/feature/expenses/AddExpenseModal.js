@@ -123,7 +123,6 @@ const AddExpenseModal = props => {
       }
     >
       {renderForm()}
-      )}
     </Modal>
   );
 };

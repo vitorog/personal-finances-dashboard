@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import onClickOutside from "react-onclickoutside";
 
 class Dropdown extends Component {
   constructor(props) {
@@ -13,6 +14,10 @@ class Dropdown extends Component {
   toggleDropdown() {
     this.setState({ isActive: !this.state.isActive });
   }
+
+  handleClickOutside = evt => {
+    this.setState({isActive: false})
+  };
 
   render() {
     return (
@@ -77,4 +82,4 @@ Dropdown.defaultProps = {
   actions: []
 };
 
-export default Dropdown;
+export default onClickOutside(Dropdown);

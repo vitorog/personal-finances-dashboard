@@ -11,6 +11,11 @@ class SimpleTable extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if(prevProps.data.length > this.props.data.length) {
+      const selectedRowsIds = new Set();
+      this.props.onSelectionChange(selectedRowsIds);
+      this.setState({selectedRowsIds})
+    }
     if (prevState.selectedRowsIds.size !== this.state.selectedRowsIds.size) {
       this.props.onSelectionChange(this.state.selectedRowsIds);
     }

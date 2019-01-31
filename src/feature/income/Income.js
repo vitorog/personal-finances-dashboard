@@ -11,7 +11,7 @@ class Income extends Component {
     this.state = {
       isAddModalVisible: false,
       selectedRowsIds: new Set(),
-      income: db.get("income").value()
+      income: Array.from(db.get("income").value())
     };
   }
 
@@ -21,14 +21,17 @@ class Income extends Component {
     db.get("income")
       .push(income)
       .write();
+
+    this.setState({income: Array.from(db.get("income").value())})
   };
 
   handleRemoveIncome = () => {
-    if (this.state.selectedRowsIds.size > 0) {
+    const selectedRowsIds = this.state.selectedRowsIds;
+    if (selectedRowsIds.size > 0) {
       db.get("income")
-        .remove(item => this.state.selectedRowsIds.has(item.id))
+        .remove(item => selectedRowsIds.has(item.id))
         .write();
-      this.setState({ income: db.get("income").value() });
+      this.setState({ income: Array.from(db.get("income").value()) });
     }
   };
 
@@ -38,6 +41,22 @@ class Income extends Component {
 
   toggleAddModal = () =>
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
+
+  renderIncome() {
+    const total = this.state.income.reduce((accum, p) => accum + Number(p.value), 0);
+    return (
+      <SimpleTable
+        headers={[
+          { name: "Description", accessor: "description" },
+          { name: "Value", accessor: "value", type: "currency" },
+          { name: "Date", accessor: "date" }
+        ]}
+        data={this.state.income}
+        footer={{ description: "Total", value: total, type: "currency" }}
+        onSelectionChange={this.handleSelectionChange}
+      />
+    );
+  }
 
   render() {
     return (
@@ -60,7 +79,7 @@ class Income extends Component {
               }
             ]}
           >
-            {this.renderIncome(this.state.income)}
+            {this.renderIncome()}
           </Card>
         </section>
         <AddIncomeModal
@@ -69,22 +88,6 @@ class Income extends Component {
           toggleModal={this.toggleAddModal}
         />
       </div>
-    );
-  }
-
-  renderIncome(income) {
-    const total = income.reduce((accum, p) => accum + Number(p.value), 0);
-    return (
-      <SimpleTable
-        headers={[
-          { name: "Description", accessor: "description" },
-          { name: "Value", accessor: "value", type: "currency" },
-          { name: "Date", accessor: "date" }
-        ]}
-        data={income}
-        footer={{ description: "Total", value: total, type: "currency" }}
-        onSelectionChange={this.handleSelectionChange}
-      />
     );
   }
 }
