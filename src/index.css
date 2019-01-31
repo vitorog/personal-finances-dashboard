@@ -10,3 +10,11 @@ html, body {
 .is-checkbox-col {
     width: 0
 }
+
+.card-container {
+    padding: 10px;
+}
+
+.is-disabled-link {
+    color: #aaa !important;
+}

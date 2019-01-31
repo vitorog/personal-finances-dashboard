@@ -74,6 +74,13 @@ const db = (() => {
 
   const income = [
     {
+      id: "1",
+      description: "Salary",
+      value: 1000,
+      date: "1 jan de 2018"
+    },
+    {
+      id: "2",
       description: "Salary",
       value: 1000,
       date: "1 jan de 2018"

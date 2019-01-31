@@ -1,42 +1,73 @@
 import React, { Component } from "react";
 import Card from "../../layout/Card";
-import styled from "styled-components";
 import db from "../../utils/database";
 import SimpleTable from "../../layout/SimpleTable";
-
-const StyledSection = styled.section`
-  && {
-    padding: 10px;
-  }
-`;
+import AddIncomeModal from "./AddIncomeModal";
+import objectHash from "object-hash";
 
 class Income extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAddModalVisible: false
+      isAddModalVisible: false,
+      selectedRowsIds: new Set(),
+      income: db.get("income").value()
     };
   }
+
+  handleAddIncome = income => {
+    income.id = objectHash(income);
+
+    db.get("income")
+      .push(income)
+      .write();
+  };
+
+  handleRemoveIncome = () => {
+    if (this.state.selectedRowsIds.size > 0) {
+      db.get("income")
+        .remove(item => this.state.selectedRowsIds.has(item.id))
+        .write();
+      this.setState({ income: db.get("income").value() });
+    }
+  };
+
+  handleSelectionChange = selectedRowsIds => {
+    this.setState({ selectedRowsIds });
+  };
 
   toggleAddModal = () =>
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
 
   render() {
-    const income = db.get("income").value();
-
     return (
       <div>
-        <StyledSection className="section">
+        <section className="card-container">
           <Card
             title={"Income"}
             actions={[
-              { text: "Add", icon: "fa-plus", callback: this.toggleAddModal },
-              { text: "Remove", icon: "fa-minus", callback: () => {} }
+              {
+                text: "Add",
+                icon: "fa-plus",
+                callback: this.toggleAddModal,
+                isActive: true
+              },
+              {
+                text: "Remove",
+                icon: "fa-minus",
+                callback: this.handleRemoveIncome,
+                isActive: this.state.selectedRowsIds.size > 0
+              }
             ]}
           >
-            {this.renderIncome(income)}
+            {this.renderIncome(this.state.income)}
           </Card>
-        </StyledSection>
+        </section>
+        <AddIncomeModal
+          handleAddIncome={this.handleAddIncome}
+          isVisible={this.state.isAddModalVisible}
+          toggleModal={this.toggleAddModal}
+        />
       </div>
     );
   }
@@ -52,6 +83,7 @@ class Income extends Component {
         ]}
         data={income}
         footer={{ description: "Total", value: total, type: "currency" }}
+        onSelectionChange={this.handleSelectionChange}
       />
     );
   }

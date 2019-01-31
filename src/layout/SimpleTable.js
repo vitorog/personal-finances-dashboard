@@ -6,8 +6,14 @@ class SimpleTable extends React.Component {
     super(props);
     this.state = {
       allChecked: false,
-      selectedRows: new Set()
+      selectedRowsIds: new Set()
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedRowsIds.size !== this.state.selectedRowsIds.size) {
+      this.props.onSelectionChange(this.state.selectedRowsIds);
+    }
   }
 
   handleAllCheckboxChange = () => {
@@ -17,29 +23,30 @@ class SimpleTable extends React.Component {
       }),
       () => {
         if (!this.state.allChecked) {
-          this.setState(prevState => ({ selectedRows: new Set() }));
+          this.setState(prevState => ({ selectedRowsIds: new Set() }));
         } else {
-          this.props.data.forEach((row, idx) => this.handleCheckboxChange(idx));
+          const selectedRowsIds = new Set(this.props.data.map(v => v.id));
+          this.setState({ selectedRowsIds });
         }
       }
     );
   };
 
-  handleCheckboxChange = rowNum => {
-    if (this.state.allChecked || !this.state.selectedRows.has(rowNum)) {
+  handleCheckboxChange = rowId => {
+    if (this.state.allChecked || !this.state.selectedRowsIds.has(rowId)) {
       this.setState(prevState => {
-        const selectedRows = new Set(prevState.selectedRows);
-        selectedRows.add(rowNum);
+        const selectedRowsIds = new Set(prevState.selectedRowsIds);
+        selectedRowsIds.add(rowId);
         return {
-          selectedRows
+          selectedRowsIds
         };
       });
     } else {
       this.setState(prevState => {
-        const selectedRows = new Set(prevState.selectedRows);
-        selectedRows.delete(rowNum);
+        const selectedRowsIds = new Set(prevState.selectedRowsIds);
+        selectedRowsIds.delete(rowId);
         return {
-          selectedRows
+          selectedRowsIds
         };
       });
     }
@@ -56,50 +63,56 @@ class SimpleTable extends React.Component {
 
     const renderData = () => {
       return (
-        <table className="table is-fullwidth">
-          <thead>
-            <tr>
-              <th className="is-checkbox-col">
-                <input
-                  type="checkbox"
-                  onChange={this.handleAllCheckboxChange}
-                />
-              </th>
-              {this.props.headers.map(header => (
-                <th key={header.name}>{header.name}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.data.map((row, idx) => (
-              <tr key={idx}>
-                <td>
+        <div className="table-container">
+          <table className="table is-fullwidth">
+            <thead>
+              <tr>
+                <th className="is-checkbox-col">
                   <input
                     type="checkbox"
-                    checked={this.state.selectedRows.has(idx)}
-                    onChange={() => this.handleCheckboxChange(idx)}
+                    onChange={this.handleAllCheckboxChange}
                   />
-                </td>
-                {this.props.headers.map((header, idx2) => {
-                  const value = header.accessor ? row[header.accessor] : row;
-                  return <td key={idx2}>{parseValue(value, header)}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-          {this.props.footer ? (
-            <tfoot>
-              <tr>
-                <th />
-                {this.props.headers.map((header, idx) => (
-                  <th key={idx}>
-                    {parseValue(this.props.footer[header.accessor], header)}
-                  </th>
+                </th>
+                {this.props.headers.map(header => (
+                  <th key={header.name}>{header.name}</th>
                 ))}
               </tr>
-            </tfoot>
-          ) : null}
-        </table>
+            </thead>
+            <tbody>
+              {this.props.data.map((row, idx) => (
+                <tr key={row.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={this.state.selectedRowsIds.has(row.id)}
+                      onChange={() => this.handleCheckboxChange(row.id)}
+                    />
+                  </td>
+                  {this.props.headers.map((header, idx2) => {
+                    const value = header.accessor ? row[header.accessor] : row;
+                    return (
+                      <td key={row.id ? row.id + idx2 : idx2}>
+                        {parseValue(value, header)}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+            {this.props.footer ? (
+              <tfoot>
+                <tr>
+                  <th />
+                  {this.props.headers.map((header, idx) => (
+                    <th key={idx}>
+                      {parseValue(this.props.footer[header.accessor], header)}
+                    </th>
+                  ))}
+                </tr>
+              </tfoot>
+            ) : null}
+          </table>
+        </div>
       );
     };
 
@@ -125,7 +138,10 @@ SimpleTable.propTypes = {
 
 SimpleTable.defaultProps = {
   header: ["Empty"],
-  data: []
+  data: [],
+  onSelectionChange: () => {
+    return;
+  }
 };
 
 export default SimpleTable;

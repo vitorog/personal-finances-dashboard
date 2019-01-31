@@ -36,8 +36,16 @@ class Dropdown extends Component {
           <div className="dropdown-content">
             {this.props.actions.map(action => (
               <a
-                className="dropdown-item"
-                onClick={action.callback}
+                className={
+                  action.isActive === undefined || action.isActive
+                    ? "dropdown-item"
+                    : "dropdown-item  is-disabled-link disabled"
+                }
+                onClick={
+                  action.isActive === undefined || action.isActive
+                    ? action.callback
+                    : () => {}
+                }
                 key={action.text}
               >
                 <span className="icon is-small">

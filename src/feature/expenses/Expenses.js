@@ -2,16 +2,9 @@ import React, { Component } from "react";
 import Card from "../../layout/Card";
 import AddExpenseModal from "./AddExpenseModal";
 import ExpensesFilters from "./ExpensesFilters";
-import styled from "styled-components";
 import db from "../../utils/database";
 import objectHash from "object-hash";
 import SimpleTable from "../../layout/SimpleTable";
-
-const StyledSection = styled.section`
-  && {
-    padding: 10px;
-  }
-`;
 
 class Expenses extends Component {
   constructor(props) {
@@ -22,10 +15,11 @@ class Expenses extends Component {
     };
   }
 
-  toggleAddModal = () =>
+  toggleAddModal = () => {
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
+  };
 
-  addExpense = expense => {
+  handleAddExpense = expense => {
     expense.id = objectHash(expense);
 
     db.get("expenses")
@@ -65,15 +59,15 @@ class Expenses extends Component {
 
     return (
       <div>
-        <StyledSection className="section">
+        <section className="card-container">
           <ExpensesFilters
             categories={categories}
             paymentMethods={paymentMethods}
             handleApplyFilters={this.handleApplyFilters}
             handleResetFilters={this.handleResetFilters}
           />
-        </StyledSection>
-        <StyledSection className="section">
+        </section>
+        <section className="card-container">
           <Card
             title={(this.state.filters ? "Filtered " : "") + "Expenses"}
             actions={[
@@ -83,11 +77,13 @@ class Expenses extends Component {
           >
             {this.renderPurchases(purchases)}
           </Card>
-        </StyledSection>
+        </section>
         <AddExpenseModal
-          handleAddExpense={this.addExpense}
+          handleAddExpense={this.handleAddExpense}
           isVisible={this.state.isAddModalVisible}
           toggleModal={this.toggleAddModal}
+          categories={categories}
+          paymentMethods={paymentMethods}
         />
       </div>
     );
@@ -95,7 +91,6 @@ class Expenses extends Component {
 
   renderPurchases(purchases) {
     const total = purchases.reduce((accum, p) => accum + Number(p.value), 0);
-    console.log(total);
     return (
       <SimpleTable
         headers={[
