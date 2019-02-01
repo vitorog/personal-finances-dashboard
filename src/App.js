@@ -5,9 +5,9 @@ import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";
 import Breadcrumb from "./layout/Breadcrumb";
 import Purchases from "./feature/expenses/Expenses";
-import Dashboard from "./feature/dashboard/Dashboard";
 import Configuration from "./feature/configuration/Configuration";
 import Income from "./feature/income/Income";
+import Reports from "./feature/reports/Reports";
 
 class App extends Component {
   render() {
@@ -26,9 +26,9 @@ class App extends Component {
                   <Route
                     exact
                     path="/"
-                    render={() => <Redirect to="/dashboard" />}
+                    render={() => <Redirect to="/reports" />}
                   />
-                  <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/reports" component={Reports} />
                   <Route path="/income" component={Income} />
                   <Route path="/expenses" component={Purchases} />
                   <Route path="/configuration" component={Configuration} />

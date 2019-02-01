@@ -13,10 +13,10 @@ const Sidebar = props => {
       <ul className="menu-list">
         <li>
           <Link
-            to="/dashboard"
-            className={isActiveRoute(currentRoute, "/dashboard")}
+            to="/reports"
+            className={isActiveRoute(currentRoute, "/reports")}
           >
-            Dashboard
+            Reports
           </Link>
         </li>
         <li>
