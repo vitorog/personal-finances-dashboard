@@ -40,26 +40,28 @@ class Card extends Component {
               </StyledDiv>
             </div>
           </div>
-          <nav className="level">
-            <div className="level-right">
-              <a
-                className="card-header-icon"
-                aria-label="more options"
-                onClick={this.toggleCollapse}
-              >
-                <span className="icon">
-                  <i
-                    className={
-                      !this.state.collapsed
-                        ? "fa fa-angle-down"
-                        : "fa fa-angle-up"
-                    }
-                    aria-hidden="true"
-                  />
-                </span>
-              </a>
-            </div>
-          </nav>
+          {this.props.canCollapse ? (
+            <nav className="level">
+              <div className="level-right">
+                <a
+                  className="card-header-icon"
+                  aria-label="more options"
+                  onClick={this.toggleCollapse}
+                >
+                  <span className="icon">
+                    <i
+                      className={
+                        !this.state.collapsed
+                          ? "fa fa-angle-down"
+                          : "fa fa-angle-up"
+                      }
+                      aria-hidden="true"
+                    />
+                  </span>
+                </a>
+              </div>
+            </nav>
+          ) : null}
         </header>
         {!this.state.collapsed ? (
           <div>
@@ -82,6 +84,7 @@ class Card extends Component {
 
 Card.propTypes = {
   title: PropTypes.string,
+  canCollapse: PropTypes.bool,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
@@ -101,7 +104,8 @@ Card.propTypes = {
 // Specifies the default values for props:
 Card.defaultProps = {
   actions: [],
-  footerActions: []
+  footerActions: [],
+  canCollapse: false
 };
 
 export default Card;
