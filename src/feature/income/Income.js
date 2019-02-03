@@ -4,19 +4,29 @@ import AddIncomeFormWithFormik from "./AddIncomeForm";
 import db from "../../utils/database";
 
 class Income extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      income: Array.from(db.get("income").value())
+    };
+  }
+
   syncWithDb = data => {
     const dbState = db.getState();
     db.setState({ ...dbState, income: data }).write();
+    this.setState({ income: Array.from(db.get("income").value()) });
   };
 
   render() {
-    const income = Array.from(db.get("income").value());
-    const total = income.reduce((accum, p) => accum + Number(p.value), 0);
+    const total = this.state.income.reduce(
+      (accum, p) => accum + Number(p.value),
+      0
+    );
     return (
       <DataTable
         title={"Income"}
         addTitle={"Add Income"}
-        dataSource={income}
+        dataSource={this.state.income}
         headers={[
           { name: "Description", accessor: "description" },
           { name: "Value", accessor: "value", type: "currency" },

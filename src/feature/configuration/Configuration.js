@@ -13,6 +13,12 @@ class Configuration extends Component {
     };
   }
 
+  syncWithDb = (data, key) => {
+    const dbState = db.getState();
+    db.setState({ ...dbState, [key]: data }).write();
+    this.setState({ [key]: Array.from(db.get(key).value()),  });
+  };
+
   render() {
     return (
       <div className="columns">
@@ -31,7 +37,7 @@ class Configuration extends Component {
                 validator={NonEmptyFieldValidator}
               />
             }
-            syncWithDb={() => {}}
+            syncWithDb={data => this.syncWithDb(data, "paymentMethods")}
           />
         </div>
         <div className="column">
@@ -45,7 +51,7 @@ class Configuration extends Component {
             addForm={
               <TextFieldForm placeholder="Category" fieldName={"description"} />
             }
-            syncWithDb={() => {}}
+            syncWithDb={data => this.syncWithDb(data, "categories")}
           />
         </div>
       </div>

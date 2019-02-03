@@ -8,9 +8,16 @@ class Expenses extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filters: null
+      filters: null,
+      expenses: Array.from(db.get("expenses").value())
     };
   }
+
+  syncWithDb = data => {
+    const dbState = db.getState();
+    db.setState({ ...dbState, expenses: data }).write();
+    this.setState({ expenses: Array.from(db.get("expenses").value()) });
+  };
 
   handleApplyFilters = filters => {
     this.setState({ filters });
@@ -38,7 +45,7 @@ class Expenses extends Component {
   }
 
   render() {
-    const expenses = this.applyFilters(db.get("expenses").value());
+    const expenses = this.applyFilters(this.state.expenses);
     const categories = db
       .get("categories")
       .value()
@@ -78,7 +85,7 @@ class Expenses extends Component {
                 paymentMethods={paymentMethods}
               />
             }
-            syncWithDb={() => {}}
+            syncWithDb={this.syncWithDb}
           />
         </section>
       </div>

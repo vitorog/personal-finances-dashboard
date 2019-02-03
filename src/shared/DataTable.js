@@ -10,31 +10,25 @@ class DataTable extends Component {
     super(props);
     this.state = {
       isAddModalVisible: false,
-      selectedRowsIds: new Set(),
-      dataSource: props.dataSource,
-      headers: props.headers,
-      footer: props.footer
+      selectedRowsIds: new Set()
     };
   }
 
   handleAdd = entry => {
     entry.id = objectHash(entry);
 
-    const dataSource = Array.from(this.state.dataSource);
+    const dataSource = Array.from(this.props.dataSource);
     dataSource.push(entry);
 
-    this.setState({
-      dataSource: dataSource
-    });
-    this.toggleAddModal();
     this.props.syncWithDb(dataSource);
+    this.toggleAddModal();
   };
 
   handleRemove = () => {
     const selectedRowsIds = new Set(this.state.selectedRowsIds);
     if (selectedRowsIds.size > 0) {
       const dataSource = Array.from(
-        this.state.dataSource.filter(elem => {
+        this.props.dataSource.filter(elem => {
           const shouldKeep = !selectedRowsIds.has(elem.id);
           if (!shouldKeep) {
             selectedRowsIds.delete(elem.id);
@@ -44,7 +38,6 @@ class DataTable extends Component {
       );
 
       this.setState({
-        dataSource: dataSource,
         selectedRowsIds: selectedRowsIds,
         isAddModalVisible: false
       });
@@ -62,9 +55,9 @@ class DataTable extends Component {
   renderData() {
     return (
       <SimpleTable
-        headers={this.state.headers}
-        data={this.state.dataSource}
-        footer={this.state.footer}
+        headers={this.props.headers}
+        data={this.props.dataSource}
+        footer={this.props.footer}
         onSelectionChange={this.handleSelectionChange}
         selectedRowsIds={this.state.selectedRowsIds}
       />

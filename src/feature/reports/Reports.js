@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import db from "../../utils/database";
-import styled from "styled-components";
 import { Pie } from "react-chartjs-2";
-
-
-const StyledSpan = styled.span`
-  && {
-    margin-left: 10px;
-  }
-`;
+import Card from "../../layout/Card";
 
 const printCurrency = value => {
   return "R$ " + (value / 100).toFixed(2);
+};
+
+const printPercentage = value => {
+  return (value * 100).toFixed(2) + "%";
 };
 
 class Reports extends Component {
@@ -32,13 +29,8 @@ class Reports extends Component {
     const goal = 0.25;
     const goalValue = totalIncome * 0.25;
 
+    const totalBudget = totalIncome - goalValue;
     const budgetValue = totalIncome - totalExpenses - goalValue;
-    let budget;
-    if (budgetValue > 0) {
-      budget = budgetValue / totalIncome;
-    } else {
-      budget = 0;
-    }
 
     const categories = db.get("categories").value();
 
@@ -46,11 +38,11 @@ class Reports extends Component {
     expenses.forEach(expense => {
       const category = expense.category;
       const value = expense.value;
-      if(!expensesByCategory.has(category)){
+      if (!expensesByCategory.has(category)) {
         expensesByCategory.set(category, value / 100);
-      }else{
+      } else {
         const previousValue = expensesByCategory.get(category);
-        expensesByCategory.set(category, previousValue + (value / 100));
+        expensesByCategory.set(category, previousValue + value / 100);
       }
     });
 
@@ -60,15 +52,13 @@ class Reports extends Component {
     expenses.forEach(expense => {
       const paymentMethod = expense.paymentMethod;
       const value = expense.value;
-      if(!paymentMethodByCategory.has(paymentMethod)){
+      if (!paymentMethodByCategory.has(paymentMethod)) {
         paymentMethodByCategory.set(paymentMethod, value / 100);
-      }else{
+      } else {
         const previousValue = paymentMethodByCategory.get(paymentMethod);
-        paymentMethodByCategory.set(paymentMethod, previousValue + (value / 100));
+        paymentMethodByCategory.set(paymentMethod, previousValue + value / 100);
       }
     });
-
-
 
     const categoryData = {
       labels: Array.from(expensesByCategory.keys()),
@@ -89,54 +79,90 @@ class Reports extends Component {
           backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
           hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
         }
-      ],
+      ]
+    };
+
+    const incomeDistributionData = {
+      labels: ["Expenses", "Remaining", "Goal"],
+      datasets: [
+        {
+          data: [totalExpenses / 100, budgetValue / 100, goalValue / 100],
+          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+        }
+      ]
     };
 
     return (
       <div>
         <div className="tile is-ancestor">
           <div className="tile is-parent is-vertical">
-            <article className="tile is-child notification is-info">
-              <p className="title">Goal</p>
-              <p className="title">
-                {printCurrency(budgetValue)}
-                <StyledSpan className="is-size-5">
-                  ({(budget * 100).toFixed(2)}%)
-                </StyledSpan>
-              </p>
-              <p className="subtitle">Budget</p>
-              <br/>
-              <p className="title">
-                {printCurrency(goalValue)}
-                <StyledSpan className="is-size-5">
-                  ({(goal * 100).toFixed(2)}%)
-                </StyledSpan>
-              </p>
-              <p className="subtitle">Target</p>
-            </article>
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-info">
+                <p className="title">{printCurrency(totalBudget)}</p>
+                <p className="subtitle">Budget</p>
+              </article>
+            </div>
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-warning">
+                <p className="title">{printCurrency(budgetValue)}</p>
+                <p className="subtitle">Remaining</p>
+              </article>
+            </div>
           </div>
           <div className="tile is-parent is-vertical">
-            <article className="tile is-child notification is-info">
-              <p className="title">Total Income</p>
-              <p className="title">{printCurrency(totalIncome)}</p>
-              <p className="subtitle">
-                Balance: + {printCurrency(balance)}
-              </p>
-            </article>
-            <article className="tile is-child notification is-warning">
-              <p className="title">Total Expenses</p>
-              <p className="title">
-                {printCurrency(totalExpenses)}
-                <StyledSpan className="is-size-5">
-                  ({(percentExpenses * 100).toFixed(2)}%)
-                </StyledSpan>
-              </p>
-            </article>
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-success">
+                <p className="title">{printCurrency(totalIncome)}</p>
+                <p className="subtitle">Income</p>
+              </article>
+            </div>
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-danger">
+                <p className="title">
+                  {printCurrency(totalExpenses)}{" "}
+                  <span className="is-size-6">
+                    ({printPercentage(percentExpenses)})
+                  </span>
+                </p>
+                <p className="subtitle">Expenses</p>
+              </article>
+            </div>
+          </div>
+          <div className="tile is-parent is-vertical">
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-primary">
+                <p className="title">{printCurrency(balance)}</p>
+                <p className="subtitle">Balance</p>
+              </article>
+            </div>
+            <div className="tile is-parent">
+              <article className="tile is-child notification is-info">
+                <p className="title">
+                  {printCurrency(goalValue)}{" "}
+                  <span className="is-size-6">({printPercentage(goal)})</span>
+                </p>
+                <p className="subtitle">Goal</p>
+              </article>
+            </div>
           </div>
         </div>
         <div className="columns">
-          <div className="column"><Pie data={categoryData} /></div>
-          <div className="column"><Pie data={paymentMethodData} /></div>
+          <div className="column">
+            <Card title="Income distribution">
+              <Pie data={incomeDistributionData} />
+            </Card>
+          </div>
+          <div className="column">
+            <Card title="Expenses by Category">
+              <Pie data={categoryData} />
+            </Card>
+          </div>
+          <div className="column">
+            <Card title="Expenses by Payment Method">
+              <Pie data={paymentMethodData} />
+            </Card>
+          </div>
         </div>
       </div>
     );
