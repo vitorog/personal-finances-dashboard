@@ -67,7 +67,7 @@ class Expenses extends Component {
         </section>
         <section className="card-container">
           <DataTable
-            title={"Expenses"}
+            title={(this.state.filters ? "Filtered " : "") + "Expenses"}
             addTitle={"Add Expense"}
             dataSource={expenses}
             headers={[

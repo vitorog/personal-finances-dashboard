@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import FileControls from "../feature/fileLoader/FileControls";
 
 const StyledNav = styled.nav`
   margin-bottom: 10px;
@@ -18,6 +19,7 @@ const Navbar = () => {
             <div className="tag is-danger">WIP</div>
           </div>
         </div>
+        <FileControls/>
       </div>
     </StyledNav>
   );

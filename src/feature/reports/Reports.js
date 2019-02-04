@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import db from "../../utils/database";
 import { Pie } from "react-chartjs-2";
 import Card from "../../layout/Card";
+import Income from "../income/Income";
+import Expenses from "../expenses/Expenses";
 
 const printCurrency = value => {
   return "R$ " + (value / 100).toFixed(2);
@@ -95,75 +97,87 @@ class Reports extends Component {
 
     return (
       <div>
-        <div className="tile is-ancestor">
-          <div className="tile is-parent is-vertical">
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-info">
-                <p className="title">{printCurrency(totalBudget)}</p>
-                <p className="subtitle">Budget</p>
-              </article>
+        <section className="card-container">
+          <Card title="Summary">
+            <div className="tile is-ancestor">
+              <div className="tile is-parent is-vertical">
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-info">
+                    <p className="title">{printCurrency(totalBudget)}</p>
+                    <p className="subtitle">Budget</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-warning">
+                    <p className="title">{printCurrency(budgetValue)}</p>
+                    <p className="subtitle">Remaining</p>
+                  </article>
+                </div>
+              </div>
+              <div className="tile is-parent is-vertical">
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-success">
+                    <p className="title">{printCurrency(totalIncome)}</p>
+                    <p className="subtitle">Income</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-danger">
+                    <p className="title">
+                      {printCurrency(totalExpenses)}{" "}
+                      <span className="is-size-6">
+                        ({printPercentage(percentExpenses)})
+                      </span>
+                    </p>
+                    <p className="subtitle">Expenses</p>
+                  </article>
+                </div>
+              </div>
+              <div className="tile is-parent is-vertical">
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-primary">
+                    <p className="title">{printCurrency(balance)}</p>
+                    <p className="subtitle">Balance</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child notification is-info">
+                    <p className="title">
+                      {printCurrency(goalValue)}{" "}
+                      <span className="is-size-6">
+                        ({printPercentage(goal)})
+                      </span>
+                    </p>
+                    <p className="subtitle">Goal</p>
+                  </article>
+                </div>
+              </div>
             </div>
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-warning">
-                <p className="title">{printCurrency(budgetValue)}</p>
-                <p className="subtitle">Remaining</p>
-              </article>
+          </Card>
+        </section>
+        <section className="card-container">
+          {" "}
+          <div className="columns" />
+          <div className="columns">
+            <div className="column">
+              <Card title="Income distribution">
+                <Pie data={incomeDistributionData} />
+              </Card>
+            </div>
+            <div className="column">
+              <Card title="Expenses by Category">
+                <Pie data={categoryData} />
+              </Card>
+            </div>
+            <div className="column">
+              <Card title="Expenses by Payment Method">
+                <Pie data={paymentMethodData} />
+              </Card>
             </div>
           </div>
-          <div className="tile is-parent is-vertical">
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-success">
-                <p className="title">{printCurrency(totalIncome)}</p>
-                <p className="subtitle">Income</p>
-              </article>
-            </div>
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-danger">
-                <p className="title">
-                  {printCurrency(totalExpenses)}{" "}
-                  <span className="is-size-6">
-                    ({printPercentage(percentExpenses)})
-                  </span>
-                </p>
-                <p className="subtitle">Expenses</p>
-              </article>
-            </div>
-          </div>
-          <div className="tile is-parent is-vertical">
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-primary">
-                <p className="title">{printCurrency(balance)}</p>
-                <p className="subtitle">Balance</p>
-              </article>
-            </div>
-            <div className="tile is-parent">
-              <article className="tile is-child notification is-info">
-                <p className="title">
-                  {printCurrency(goalValue)}{" "}
-                  <span className="is-size-6">({printPercentage(goal)})</span>
-                </p>
-                <p className="subtitle">Goal</p>
-              </article>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column">
-            <Card title="Income distribution">
-              <Pie data={incomeDistributionData} />
-            </Card>
-          </div>
-          <div className="column">
-            <Card title="Expenses by Category">
-              <Pie data={categoryData} />
-            </Card>
-          </div>
-          <div className="column">
-            <Card title="Expenses by Payment Method">
-              <Pie data={paymentMethodData} />
-            </Card>
-          </div>
-        </div>
+        </section>
+        <Income />
+        <Expenses />
       </div>
     );
   }

@@ -23,20 +23,22 @@ class Income extends Component {
       0
     );
     return (
-      <DataTable
-        title={"Income"}
-        addTitle={"Add Income"}
-        dataSource={this.state.income}
-        headers={[
-          { name: "Description", accessor: "description" },
-          { name: "Value", accessor: "value", type: "currency" },
-          { name: "Date", accessor: "date" }
-        ]}
-        footer={{ description: "Total", value: total, type: "currency" }}
-        formName={"AddIncomeForm"}
-        addForm={<AddIncomeFormWithFormik />}
-        syncWithDb={this.syncWithDb}
-      />
+      <section className="card-container">
+        <DataTable
+          title={"Income"}
+          addTitle={"Add Income"}
+          dataSource={this.state.income}
+          headers={[
+            { name: "Description", accessor: "description" },
+            { name: "Value", accessor: "value", type: "currency" },
+            { name: "Date", accessor: "date" }
+          ]}
+          footer={{ description: "Total", value: total, type: "currency" }}
+          formName={"AddIncomeForm"}
+          addForm={<AddIncomeFormWithFormik />}
+          syncWithDb={this.syncWithDb}
+        />
+      </section>
     );
   }
 }

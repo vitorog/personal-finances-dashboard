@@ -17,10 +17,10 @@ class App extends Component {
           <Navbar />
           <div className="container">
             <div className="columns">
-              <div className="column is-3">
+              <div className="column is-2">
                 <Sidebar />
               </div>
-              <div className="column is-9">
+              <div className="column">
                 <Breadcrumb />
                 <div>
                   <Route

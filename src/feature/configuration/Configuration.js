@@ -16,7 +16,7 @@ class Configuration extends Component {
   syncWithDb = (data, key) => {
     const dbState = db.getState();
     db.setState({ ...dbState, [key]: data }).write();
-    this.setState({ [key]: Array.from(db.get(key).value()),  });
+    this.setState({ [key]: Array.from(db.get(key).value()) });
   };
 
   render() {
