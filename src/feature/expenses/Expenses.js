@@ -46,6 +46,7 @@ class Expenses extends Component {
 
   render() {
     const expenses = this.applyFilters(this.state.expenses);
+    const hasData = expenses.length > 0;
     const categories = db
       .get("categories")
       .value()
@@ -58,12 +59,12 @@ class Expenses extends Component {
     return (
       <div>
         <section className="card-container">
-          <ExpensesFilters
+          {hasData ? (<ExpensesFilters
             categories={categories}
             paymentMethods={paymentMethods}
             handleApplyFilters={this.handleApplyFilters}
             handleResetFilters={this.handleResetFilters}
-          />
+          />) : null}
         </section>
         <section className="card-container">
           <DataTable

@@ -95,11 +95,13 @@ class Reports extends Component {
       ]
     };
 
+    const hasData = income.length > 0 || expenses.length > 0;
+
     return (
       <div>
         <section className="card-container">
           <Card title="Summary">
-            <div className="tile is-ancestor">
+            {hasData ? (<div className="tile is-ancestor">
               <div className="tile is-parent is-vertical">
                 <div className="tile is-parent">
                   <article className="tile is-child notification is-info">
@@ -152,10 +154,10 @@ class Reports extends Component {
                   </article>
                 </div>
               </div>
-            </div>
+            </div>) : <div className="has-text-centered">No Data</div>}
           </Card>
         </section>
-        <section className="card-container">
+        {hasData ? (<section className="card-container">
           {" "}
           <div className="columns" />
           <div className="columns">
@@ -175,7 +177,7 @@ class Reports extends Component {
               </Card>
             </div>
           </div>
-        </section>
+        </section>) : null}
         <Income />
         <Expenses />
       </div>
