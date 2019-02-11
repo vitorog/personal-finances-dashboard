@@ -11,7 +11,8 @@ const db = (() => {
     expenses: [],
     income: [],
     categories: [],
-    paymentMethods: []
+    paymentMethods: [],
+    reports: []
   }).write();
 
   // const expenses = [
@@ -66,7 +67,7 @@ const db = (() => {
   //   }
   // ];
   //
-  // db.set("income", income).write();
+  db.set("reports", [{ name: "Feb - 2019" }]).write();
 
   return db;
 })();

@@ -34,7 +34,7 @@ class Card extends Component {
                   <Dropdown
                     className="level-item"
                     title="Actions"
-                    actions={this.props.actions}
+                    items={this.props.actions}
                   />
                 ) : null}
               </StyledDiv>

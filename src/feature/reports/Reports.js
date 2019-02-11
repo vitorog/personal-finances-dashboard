@@ -4,9 +4,9 @@ import { Pie } from "react-chartjs-2";
 import Card from "../../layout/Card";
 import Income from "../income/Income";
 import Expenses from "../expenses/Expenses";
-import Dropdown from "../../layout/Dropdown";
 import Modal from "../../layout/Modal";
 import CreateReportFormWithFormik from "./CreateReportForm";
+import Select from "../../layout/Select";
 
 const printCurrency = value => {
   return "R$ " + (value / 100).toFixed(2);
@@ -29,8 +29,8 @@ class Reports extends Component {
       isCreateReportModalVisible: !prevState.isCreateReportModalVisible
     }));
 
-  handleCreateReport = (data) => {
-    console.log(data);
+  handleCreateReport = reportData => {
+    db.get("reports").push(reportData).write();
     this.toggleCreateReportModal();
   };
 
@@ -117,6 +117,11 @@ class Reports extends Component {
 
     const hasData = income.length > 0 || expenses.length > 0;
 
+    const reports = db
+      .get("reports")
+      .value()
+      .map(report => report.name);
+
     const createReportFormName = "createReportForm";
     return (
       <div>
@@ -125,18 +130,25 @@ class Reports extends Component {
           isVisible={this.state.isCreateReportModalVisible}
           toggleModal={this.toggleCreateReportModal}
           submitButton={
-            <button className="button" type="submit" form={createReportFormName}>
+            <button
+              className="button"
+              type="submit"
+              form={createReportFormName}
+            >
               Ok
             </button>
           }
         >
-          <CreateReportFormWithFormik formName={createReportFormName} handleSubmit={this.handleCreateReport} />
+          <CreateReportFormWithFormik
+            formName={createReportFormName}
+            handleSubmit={this.handleCreateReport}
+          />
         </Modal>
         <section className="card-container">
           <div className="level">
             <div className="level-left">
               <div className="level-item">
-                <Dropdown title={"Reports"} />
+                <Select options={reports} handleChange={() => {}}/>
               </div>
             </div>
             <div className="level-right">
