@@ -7,7 +7,12 @@ const db = (() => {
 
   const adapter = new LocalStorage("db");
   const db = low(adapter);
-  db.defaults({ expenses: [], income: [], categories: [], paymentMethods: [] }).write();
+  db.defaults({
+    expenses: [],
+    income: [],
+    categories: [],
+    paymentMethods: []
+  }).write();
 
   // const expenses = [
   //   {

@@ -59,12 +59,14 @@ class Expenses extends Component {
     return (
       <div>
         <section className="card-container">
-          {hasData ? (<ExpensesFilters
-            categories={categories}
-            paymentMethods={paymentMethods}
-            handleApplyFilters={this.handleApplyFilters}
-            handleResetFilters={this.handleResetFilters}
-          />) : null}
+          {hasData ? (
+            <ExpensesFilters
+              categories={categories}
+              paymentMethods={paymentMethods}
+              handleApplyFilters={this.handleApplyFilters}
+              handleResetFilters={this.handleResetFilters}
+            />
+          ) : null}
         </section>
         <section className="card-container">
           <DataTable

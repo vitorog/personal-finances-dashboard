@@ -19,7 +19,7 @@ const Navbar = () => {
             <div className="tag is-danger">WIP</div>
           </div>
         </div>
-        <FileControls/>
+        <FileControls />
       </div>
     </StyledNav>
   );

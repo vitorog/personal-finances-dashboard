@@ -34,6 +34,7 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
+  title: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
   buttons: PropTypes.array,
