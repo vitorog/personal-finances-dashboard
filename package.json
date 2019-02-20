@@ -35,6 +35,8 @@
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "devDependencies": {
+    "eslint": "^5.14.1",
+    "eslint-plugin-react": "^7.12.4",
     "husky": "^1.2.0",
     "onchange": "^5.1.2",
     "prettier": "1.15.2",

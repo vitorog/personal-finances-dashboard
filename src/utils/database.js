@@ -67,7 +67,10 @@ const db = (() => {
   //   }
   // ];
   //
-  db.set("reports", [{ name: "Feb - 2019" }]).write();
+  db.set("reports", [
+    { name: "Feb - 2019", goal: 0.25, incomeIds: ['1'], expensesIds: ['5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995'] },
+    { name: "Mar - 2019", goal: 0.35, incomeIds: ['2'], expensesIds: ['5a4a2515'] }
+    ]).write();
 
   return db;
 })();
