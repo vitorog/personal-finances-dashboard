@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import SimpleTable from "./SimpleTable";
 import Card from "../layout/Card";
-import objectHash from "object-hash";
 import Modal from "../layout/Modal";
 import PropTypes from "prop-types";
+import Dropdown from "../layout/Dropdown";
+import DropdownItem from "../layout/DropdownItem";
 
 class DataTable extends Component {
   constructor(props) {
@@ -15,34 +16,13 @@ class DataTable extends Component {
   }
 
   handleAdd = entry => {
-    entry.id = objectHash(entry);
-
-    const dataSource = Array.from(this.props.dataSource);
-    dataSource.push(entry);
-
-    this.props.syncWithDb(dataSource);
     this.toggleAddModal();
+    this.props.onAdd(entry);
   };
 
   handleRemove = () => {
-    const selectedRowsIds = new Set(this.state.selectedRowsIds);
-    if (selectedRowsIds.size > 0) {
-      const dataSource = Array.from(
-        this.props.dataSource.filter(elem => {
-          const shouldKeep = !selectedRowsIds.has(elem.id);
-          if (!shouldKeep) {
-            selectedRowsIds.delete(elem.id);
-          }
-          return shouldKeep;
-        })
-      );
-
-      this.setState({
-        selectedRowsIds: selectedRowsIds,
-        isAddModalVisible: false
-      });
-      this.props.syncWithDb(dataSource);
-    }
+    this.props.onRemove(this.state.selectedRowsIds);
+    this.setState({ selectedRowsIds: new Set() });
   };
 
   handleSelectionChange = selectedRowsIds => {
@@ -52,70 +32,64 @@ class DataTable extends Component {
   toggleAddModal = () =>
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
 
+  getCardActions = () => {
+    return (
+      <Dropdown title={"Actions"}>
+        <DropdownItem
+          text="Add"
+          icon="fa fa-plus"
+          callback={this.toggleAddModal}
+        />
+        <DropdownItem
+          text="Remove"
+          icon="fa fa-minus"
+          callback={this.handleRemove}
+          isActive={this.state.selectedRowsIds.size > 0}
+        />
+        {this.props.customActions}
+      </Dropdown>
+    );
+  };
+
   renderData() {
     return (
       <SimpleTable
         headers={this.props.headers}
-        data={this.props.dataSource}
+        data={this.props.data}
         footer={this.props.footer}
         onSelectionChange={this.handleSelectionChange}
-        selectedRowsIds={this.state.selectedRowsIds}
       />
     );
   }
 
   render() {
     return (
-      <div>
-        <Card
-          title={this.props.title}
-          actions={[
-            {
-              text: "Add",
-              icon: "fa-plus",
-              callback: this.toggleAddModal,
-              isActive: true
-            },
-            {
-              text: "Remove",
-              icon: "fa-minus",
-              callback: this.handleRemove,
-              isActive: this.state.selectedRowsIds.size > 0
-            }
-          ]}
-        >
+      <React.Fragment>
+        <Card title={this.props.title} actionsMenu={this.getCardActions()}>
           {this.renderData()}
         </Card>
-        {this.props.addForm ? (
-          <Modal
-            title={this.props.addTitle}
-            isVisible={this.state.isAddModalVisible}
-            toggleModal={this.toggleAddModal}
-            submitButton={
-              <button
-                className="button"
-                type="submit"
-                form={this.props.formName}
-              >
-                Ok
-              </button>
-            }
-          >
-            {React.cloneElement(this.props.addForm, {
-              formName: this.props.formName,
-              handleSubmit: this.handleAdd
-            })}
-          </Modal>
-        ) : null}
-      </div>
+        <Modal
+          title={"Add " + this.props.title}
+          isVisible={this.state.isAddModalVisible}
+          toggleModal={this.toggleAddModal}
+          submitButton={
+            <button className="button" type="submit" form={this.props.title}>
+              Ok
+            </button>
+          }
+        >
+          {React.cloneElement(this.props.addForm, {
+            formName: this.props.title,
+            handleSubmit: this.handleAdd
+          })}
+        </Modal>
+      </React.Fragment>
     );
   }
 }
 
 DataTable.propTypes = {
   title: PropTypes.string.isRequired,
-  addTitle: PropTypes.string.isRequired,
-  formName: PropTypes.string.isRequired,
   addForm: PropTypes.element.isRequired,
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -124,9 +98,11 @@ DataTable.propTypes = {
       type: PropTypes.string
     })
   ).isRequired,
-  dataSource: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
   footer: PropTypes.object,
-  syncWithDb: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  customActions: PropTypes.element
 };
 
 export default DataTable;

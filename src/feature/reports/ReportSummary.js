@@ -1,9 +1,8 @@
 import React from "react";
 import Card from "../../layout/Card";
-import {Pie} from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 class ReportSummary extends React.Component {
-
   printPercentage = value => {
     return (value * 100).toFixed(2) + "%";
   };
@@ -113,12 +112,15 @@ class ReportSummary extends React.Component {
       paymentMethodData,
       incomeDistributionData,
       hasData
-    }
+    };
   };
 
   render() {
-
-    const summaryData = this.getSummaryData(this.props.income, this.props.expenses, this.props.goal);
+    const summaryData = this.getSummaryData(
+      this.props.income,
+      this.props.expenses,
+      this.props.goal
+    );
 
     return (
       <div>
@@ -129,13 +131,17 @@ class ReportSummary extends React.Component {
                 <div className="tile is-parent is-vertical">
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-info">
-                      <p className="title">{this.printCurrency(summaryData.totalBudget)}</p>
+                      <p className="title">
+                        {this.printCurrency(summaryData.totalBudget)}
+                      </p>
                       <p className="subtitle">Budget</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-warning">
-                      <p className="title">{this.printCurrency(summaryData.budgetValue)}</p>
+                      <p className="title">
+                        {this.printCurrency(summaryData.budgetValue)}
+                      </p>
                       <p className="subtitle">Remaining</p>
                     </article>
                   </div>
@@ -143,7 +149,9 @@ class ReportSummary extends React.Component {
                 <div className="tile is-parent is-vertical">
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-success">
-                      <p className="title">{this.printCurrency(summaryData.totalIncome)}</p>
+                      <p className="title">
+                        {this.printCurrency(summaryData.totalIncome)}
+                      </p>
                       <p className="subtitle">Income</p>
                     </article>
                   </div>
@@ -162,7 +170,9 @@ class ReportSummary extends React.Component {
                 <div className="tile is-parent is-vertical">
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-primary">
-                      <p className="title">{this.printCurrency(summaryData.balance)}</p>
+                      <p className="title">
+                        {this.printCurrency(summaryData.balance)}
+                      </p>
                       <p className="subtitle">Balance</p>
                     </article>
                   </div>
@@ -187,27 +197,28 @@ class ReportSummary extends React.Component {
         {summaryData.hasData ? (
           <section className="card-container">
             {" "}
-            <div className="columns"/>
+            <div className="columns" />
             <div className="columns">
               <div className="column">
                 <Card title="Income distribution">
-                  <Pie data={summaryData.incomeDistributionData}/>
+                  <Pie data={summaryData.incomeDistributionData} />
                 </Card>
               </div>
               <div className="column">
                 <Card title="Expenses by Category">
-                  <Pie data={summaryData.categoryData}/>
+                  <Pie data={summaryData.categoryData} />
                 </Card>
               </div>
               <div className="column">
                 <Card title="Expenses by Payment Method">
-                  <Pie data={summaryData.paymentMethodData}/>
+                  <Pie data={summaryData.paymentMethodData} />
                 </Card>
               </div>
             </div>
           </section>
         ) : null}
-      </div>)
+      </div>
+    );
   }
 }
 

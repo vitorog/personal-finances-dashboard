@@ -1,35 +1,18 @@
 import React, { Component } from "react";
-import db from "../../utils/database";
 import DataTable from "../../shared/DataTable";
 import TextFieldForm from "../../shared/TextFieldForm";
 import NonEmptyFieldValidator from "../../shared/NonEmptyFieldValidator";
+import {inject, observer} from "mobx-react";
 
 class Configuration extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: db.get("categories").value(),
-      paymentMethods: db.get("paymentMethods").value()
-    };
-  }
-
-  syncWithDb = (data, key) => {
-    const dbState = db.getState();
-    db.setState({ ...dbState, [key]: data }).write();
-    this.setState({ [key]: Array.from(db.get(key).value()) });
-  };
-
   render() {
     return (
       <div className="columns">
         <div className="column">
           <DataTable
             title={"Configure payment methods"}
-            addTitle={"Add payment method"}
-            dataSource={this.state.paymentMethods}
+            data={this.props.finances.paymentMethods}
             headers={[{ name: "Payment Method", accessor: "description" }]}
-            footer={null}
-            formName={"AddPaymentMethodForm"}
             addForm={
               <TextFieldForm
                 placeholder="Payment Method"
@@ -37,21 +20,20 @@ class Configuration extends Component {
                 validator={NonEmptyFieldValidator}
               />
             }
-            syncWithDb={data => this.syncWithDb(data, "paymentMethods")}
+            onAdd={this.props.finances.addPaymentMethod}
+            onRemove={this.props.finances.removePaymentMethodsByIds}
           />
         </div>
         <div className="column">
           <DataTable
             title={"Configure categories"}
-            addTitle={"Add category"}
-            dataSource={this.state.categories}
+            data={this.props.finances.categories}
             headers={[{ name: "Categories", accessor: "description" }]}
-            footer={null}
-            formName={"AddCategoryForm"}
             addForm={
               <TextFieldForm placeholder="Category" fieldName={"description"} />
             }
-            syncWithDb={data => this.syncWithDb(data, "categories")}
+            onAdd={this.props.finances.addCategory}
+            onRemove={this.props.finances.removeCategoriesByIds}
           />
         </div>
       </div>
@@ -59,4 +41,4 @@ class Configuration extends Component {
   }
 }
 
-export default Configuration;
+export default inject("finances")(observer(Configuration));

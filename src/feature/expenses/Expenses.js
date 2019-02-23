@@ -2,22 +2,15 @@ import React, { Component } from "react";
 import ExpensesFilters from "./ExpensesFilters";
 import DataTable from "../../shared/DataTable";
 import AddExpenseFormWithFormik from "./AddExpenseForm";
-import db from "../../utils/database";
+import { inject, observer } from "mobx-react";
 
 class Expenses extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filters: null,
-      expenses: Array.from(db.get("expenses").value())
+      filters: null
     };
   }
-
-  syncWithDb = data => {
-    const dbState = db.getState();
-    db.setState({ ...dbState, expenses: data }).write();
-    this.setState({ expenses: Array.from(db.get("expenses").value()) });
-  };
 
   handleApplyFilters = filters => {
     this.setState({ filters });
@@ -45,19 +38,17 @@ class Expenses extends Component {
   }
 
   render() {
-    const expenses = this.applyFilters(this.state.expenses);
+    const expenses = this.applyFilters(this.props.finances.expenses);
     const hasData = expenses.length > 0;
-    const categories = db
-      .get("categories")
-      .value()
-      .map(elem => elem.description);
-    const paymentMethods = db
-      .get("paymentMethods")
-      .value()
-      .map(elem => elem.description);
+    const categories = this.props.finances.categories.map(
+      elem => elem.description
+    );
+    const paymentMethods = this.props.finances.paymentMethods.map(
+      elem => elem.description
+    );
     const total = expenses.reduce((accum, p) => accum + Number(p.value), 0);
     return (
-      <div>
+      <React.Fragment>
         <section className="card-container">
           {hasData ? (
             <ExpensesFilters
@@ -70,9 +61,8 @@ class Expenses extends Component {
         </section>
         <section className="card-container">
           <DataTable
-            title={(this.state.filters ? "Filtered " : "") + "Expenses"}
-            addTitle={"Add Expense"}
-            dataSource={expenses}
+            title="Expenses"
+            data={expenses}
             headers={[
               { name: "Description", accessor: "description" },
               { name: "Value", accessor: "value", type: "currency" },
@@ -81,19 +71,19 @@ class Expenses extends Component {
               { name: "Date", accessor: "date" }
             ]}
             footer={{ description: "Total", value: total, type: "currency" }}
-            formName={"AddExpenseForm"}
             addForm={
               <AddExpenseFormWithFormik
                 categories={categories}
                 paymentMethods={paymentMethods}
               />
             }
-            syncWithDb={this.syncWithDb}
+            onAdd={this.props.finances.addExpense}
+            onRemove={this.props.finances.removeExpensesByIds}
           />
         </section>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-export default Expenses;
+export default inject("finances")(observer(Expenses));

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Dropdown from "./Dropdown";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -29,18 +28,10 @@ class Card extends Component {
           <div className="card-header-title">
             <div className="level">
               <div className="level-item">{this.props.title}</div>
-              <StyledDiv>
-                {this.props.actions.length > 0 ? (
-                  <Dropdown
-                    className="level-item"
-                    title="Actions"
-                    items={this.props.actions}
-                  />
-                ) : null}
-              </StyledDiv>
+              <StyledDiv>{this.props.actionsMenu}</StyledDiv>
             </div>
           </div>
-          {this.props.canCollapse ? (
+          {this.props.canCollapse && (
             <nav className="level">
               <div className="level-right">
                 <a
@@ -61,22 +52,15 @@ class Card extends Component {
                 </a>
               </div>
             </nav>
-          ) : null}
+          )}
         </header>
-        {!this.state.collapsed ? (
+        {!this.state.collapsed && (
           <div>
             <div className="card-content">
               <div className="content">{this.props.children}</div>
             </div>
-            <div className="card-footer">
-              {this.props.footerActions.map(action => (
-                <a href="#/" className="card-footer-item">
-                  {action.text}
-                </a>
-              ))}
-            </div>
           </div>
-        ) : null}
+        )}
       </div>
     );
   }
@@ -85,26 +69,11 @@ class Card extends Component {
 Card.propTypes = {
   title: PropTypes.string,
   canCollapse: PropTypes.bool,
-  actions: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.string.isRequired,
-      callback: PropTypes.func.isRequired
-    })
-  ),
-  footerActions: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.string.isRequired,
-      callback: PropTypes.func.isRequired
-    })
-  )
+  actionsMenu: PropTypes.element
 };
 
 // Specifies the default values for props:
 Card.defaultProps = {
-  actions: [],
-  footerActions: [],
   canCollapse: false
 };
 

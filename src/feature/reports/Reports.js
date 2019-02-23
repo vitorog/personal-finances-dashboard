@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import db from "../../utils/database";
 import Modal from "../../layout/Modal";
 import CreateReportFormWithFormik from "./CreateReportForm";
 import Select from "../../layout/Select";
 import ReportSummary from "./ReportSummary";
 import SimpleTable from "../../shared/SimpleTable";
 import Card from "../../layout/Card";
+import {inject, observer} from "mobx-react";
 
 class Reports extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedReport: db.get("reports").value()[0],
+      selectedReport: this.props.finances.reports[0],
       isCreateReportModalVisible: false
     };
   }
@@ -22,29 +22,19 @@ class Reports extends Component {
     }));
 
   handleCreateReport = reportData => {
-    db.get("reports").push(reportData).write();
+    const newReport = { ...reportData, incomeIds: [], expensesIds: [] };
     this.toggleCreateReportModal();
   };
 
   handleReportChange = selectedReportName => {
-
-    const selectedReport = db
-        .get("reports")
-        .value().filter(report => report.name === selectedReportName)[0] || null;
-
-    this.setState({selectedReport});
+    console.log(selectedReportName);
+    // this.setState({ selectedReport });
   };
 
   render() {
-    const reportNames = db
-      .get("reports")
-      .value()
-      .map(report => report.name);
-
-    //TODO: Terrible complexity, change this later
-    const income = db.get("income").value().filter(income => this.state.selectedReport.incomeIds.includes(income.id));
-    const expenses = db.get("expenses").value().filter(expense => this.state.selectedReport.expensesIds.includes(expense.id));
-
+    const reportNames = this.props.finances.reports.map(report => report.name);
+    const income = this.props.finances.income;
+    const expenses = this.props.finances.expenses;
     const createReportFormName = "createReportForm";
 
     return (
@@ -72,7 +62,10 @@ class Reports extends Component {
           <div className="level">
             <div className="level-left">
               <div className="level-item">
-                <Select options={reportNames} handleChange={this.handleReportChange}/>
+                <Select
+                  options={reportNames}
+                  handleChange={this.handleReportChange}
+                />
               </div>
             </div>
             <div className="level-right">
@@ -87,7 +80,11 @@ class Reports extends Component {
             </div>
           </div>
         </section>
-        <ReportSummary income={income} expenses={expenses} goal={this.state.selectedReport.goal}/>
+        <ReportSummary
+          income={income}
+          expenses={expenses}
+          goal={this.state.selectedReport.goal}
+        />
         <section className="card-container">
           <Card title="Income">
             <SimpleTable
@@ -121,4 +118,4 @@ class Reports extends Component {
   }
 }
 
-export default Reports;
+export default inject("finances")(observer(Reports));

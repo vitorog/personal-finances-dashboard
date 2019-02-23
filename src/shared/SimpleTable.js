@@ -2,9 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 
 class SimpleTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedRowsIds: new Set()
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    // If entries were removed, it means we can clear the checked items (only checked items can be removed)
+    if (this.props.data.length < prevProps.data.length) {
+      this.setState({ selectedRowsIds: new Set() });
+    }
+  }
 
   isAllSelected = () => {
-    return this.props.selectedRowsIds.size === this.props.data.length;
+    return this.state.selectedRowsIds.size === this.props.data.length;
   };
 
   handleAllCheckboxChange = () => {
@@ -14,16 +27,18 @@ class SimpleTable extends React.Component {
     } else {
       selectedRowsIds = new Set();
     }
+    this.setState({ selectedRowsIds });
     this.props.onSelectionChange(selectedRowsIds);
   };
 
   handleCheckboxChange = rowId => {
-    const selectedRowsIds = new Set(this.props.selectedRowsIds);
+    const selectedRowsIds = new Set(this.state.selectedRowsIds);
     if (!selectedRowsIds.has(rowId)) {
       selectedRowsIds.add(rowId);
     } else {
       selectedRowsIds.delete(rowId);
     }
+    this.setState({ selectedRowsIds });
     this.props.onSelectionChange(selectedRowsIds);
   };
 
@@ -40,48 +55,55 @@ class SimpleTable extends React.Component {
       <div className="table-container">
         <table className="table is-fullwidth">
           <thead>
-          <tr>
-            <th className="is-checkbox-col">
-              <input
-                type="checkbox"
-                checked={this.isAllSelected()}
-                onChange={this.handleAllCheckboxChange}
-              />
-            </th>
-            {this.props.headers.map(header => (
-              <th key={header.name}>{header.name}</th>
-            ))}
-          </tr>
-          </thead>
-          <tbody>
-          {this.props.data.map(row => (
-            <tr key={row.id}>
-              <td>
+            <tr>
+              <th className="is-checkbox-col">
                 <input
                   type="checkbox"
-                  checked={this.props.selectedRowsIds.has(row.id)}
-                  onChange={() => this.handleCheckboxChange(row.id)}
+                  checked={this.isAllSelected()}
+                  onChange={this.handleAllCheckboxChange}
                 />
-              </td>
-              {this.props.headers.map((header, idx2) => {
-                const value = header.accessor ? row[header.accessor] : row;
-                return (
-                  <td key={row.id + idx2}>{this.parseValue(value, header)}</td>
-                );
-              })}
+              </th>
+              {this.props.headers.map(header => (
+                <th key={header.name}>{header.name}</th>
+              ))}
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {this.props.data.map(row => (
+              <tr key={row.id}>
+                {this.state.selectedRowsIds && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={this.state.selectedRowsIds.has(row.id)}
+                      onChange={() => this.handleCheckboxChange(row.id)}
+                    />
+                  </td>
+                )}
+                {this.props.headers.map((header, idx2) => {
+                  const value = header.accessor ? row[header.accessor] : row;
+                  return (
+                    <td key={row.id + idx2}>
+                      {this.parseValue(value, header)}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
           </tbody>
           {this.props.footer ? (
             <tfoot>
-            <tr>
-              <th />
-              {this.props.headers.map((header, idx) => (
-                <th key={idx}>
-                  {this.parseValue(this.props.footer[header.accessor], header)}
-                </th>
-              ))}
-            </tr>
+              <tr>
+                <th />
+                {this.props.headers.map((header, idx) => (
+                  <th key={idx}>
+                    {this.parseValue(
+                      this.props.footer[header.accessor],
+                      header
+                    )}
+                  </th>
+                ))}
+              </tr>
             </tfoot>
           ) : null}
         </table>
@@ -107,7 +129,6 @@ SimpleTable.propTypes = {
     })
   ).isRequired,
   data: PropTypes.array.isRequired,
-  selectedRowsIds: PropTypes.object,
   footer: PropTypes.object,
   onSelectionChange: PropTypes.func
 };
@@ -115,8 +136,7 @@ SimpleTable.propTypes = {
 SimpleTable.defaultProps = {
   header: ["Empty"],
   data: [],
-  onSelectionChange: () => {},
-  selectedRowsIds: new Set()
+  onSelectionChange: () => {}
 };
 
 export default SimpleTable;

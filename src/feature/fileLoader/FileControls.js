@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import db from "../../utils/database";
 
 class FileControls extends Component {
   constructor(props) {
@@ -16,8 +15,8 @@ class FileControls extends Component {
   handleFileLoadEnd = event => {
     // TODO: Change this reload and use redux instead
     const dbState = JSON.parse(event.target.result);
-    db.setState(dbState);
-    db.write();
+    // db.setState(dbState);
+    // db.write();
     // TODO: Remove this later ? Adding this just to see the loading spinner
     setTimeout(() => {
       this.setState({ isLoadingFile: false });

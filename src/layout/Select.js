@@ -1,12 +1,18 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const Select = (props) => {
-  return (<div className="select">
-    <select>
-      {props.options.map(option => <option key={option} onClick={() => props.handleChange(option)}>{option}</option>)}
-    </select>
-  </div>)
+const Select = props => {
+  return (
+    <div className="select">
+      <select>
+        {props.options.map(option => (
+          <option key={option} onClick={() => props.handleChange(option)}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 };
 
 Select.propTypes = {

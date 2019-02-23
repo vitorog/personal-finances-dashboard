@@ -22,7 +22,7 @@ class Dropdown extends Component {
   render() {
     return (
       <div
-        className={this.state.isActive ? "dropdown is-active" : "is-active"}
+        className={"dropdown " + (this.state.isActive ? "is-active" : "")}
         onClick={this.toggleDropdown}
       >
         <div className="dropdown-trigger">
@@ -38,28 +38,7 @@ class Dropdown extends Component {
           </button>
         </div>
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
-          <div className="dropdown-content">
-            {this.props.items.map(item => (
-              <a
-                className={
-                  item.isActive === undefined || item.isActive
-                    ? "dropdown-item"
-                    : "dropdown-item  is-disabled-link disabled"
-                }
-                onClick={
-                  item.isActive === undefined || item.isActive
-                    ? item.callback
-                    : () => {}
-                }
-                key={item.text}
-              >
-                <span className="icon is-small">
-                  <i className={"fa " + item.icon} />
-                </span>
-                <span>{item.text}</span>
-              </a>
-            ))}
-          </div>
+          <div className="dropdown-content">{this.props.children}</div>
         </div>
       </div>
     );
@@ -68,19 +47,7 @@ class Dropdown extends Component {
 
 Dropdown.propTypes = {
   title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.string,
-      callback: PropTypes.func.isRequired
-    })
-  ),
   handleChange: PropTypes.func
-};
-
-// Specifies the default values for props:
-Dropdown.defaultProps = {
-  items: []
 };
 
 export default onClickOutside(Dropdown);
