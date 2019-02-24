@@ -63,7 +63,8 @@ class FileControls extends Component {
     this.state = {
       fileReader: new FileReader(),
       isLoadingFile: false,
-      isSyncingFile: false
+      isSyncingFile: false,
+      dataObserver: null
     };
     this.state.fileReader.onloadend = this.handleFileLoadEnd;
 
@@ -75,9 +76,11 @@ class FileControls extends Component {
       console.log("Loading demo data.");
       this.props.finances.setData(demoData);
     }
+  }
 
+  componentDidMount() {
     //TODO: Check performance of doing this with large datasets
-    deepObserve(this.props.finances.data, this.saveToLocalStorage);
+    this.setState({dataObserver: deepObserve(this.props.finances.data, this.saveToLocalStorage)});
   }
 
   handleFileLoadEnd = event => {
@@ -101,7 +104,9 @@ class FileControls extends Component {
     if (localStorage.getItem("financesData") !== null) {
       localStorage.removeItem("financesData");
     }
+    this.state.dataObserver();
     this.props.finances.clearData();
+    this.setState({dataObserver: deepObserve(this.props.finances.data, this.saveToLocalStorage)});
   };
 
   handleSave = () => {
