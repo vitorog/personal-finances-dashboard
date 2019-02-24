@@ -27,10 +27,7 @@ class FinanceStore {
     this.expenses = db["expenses"];
     this.categories = db["categories"];
     this.paymentMethods = db["paymentMethods"];
-    this.reports =  [
-      { name: "Feb - 2019", goal: 0.25, incomeIds: ['1'], expensesIds: ['5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995'] },
-      { name: "Mar - 2019", goal: 0.35, incomeIds: ['2'], expensesIds: ['5a4a2515'] }
-    ];
+    this.reports = [];
   }
 
   addIncome = income => this.addWithHashId(income, this.income);
@@ -38,6 +35,7 @@ class FinanceStore {
   addPaymentMethod = paymentMethod =>
     this.addWithHashId(paymentMethod, this.paymentMethod);
   addCategory = category => this.addWithHashId(category, this.categories);
+  addReport = report => this.addWithHashId(report, this.reports);
 
   removeIncomeByIds = ids => {
     this.income = this.removeItemsByIds(this.income, ids);
@@ -54,6 +52,14 @@ class FinanceStore {
   removePaymentMethodsByIds = ids => {
     this.paymentMethods = this.removeItemsByIds(this.paymentMethods, ids);
   };
+
+  getReportById = id => {
+    return this.reports.filter(report => report.id === id)[0];
+  };
+
+  getIncomeByIds = ids => this.getItemsByIds(this.income, ids);
+
+  getExpensesByIds = ids => this.getItemsByIds(this.expenses, ids);
 
   get totalIncome() {
     return this.income.reduce(this.getTotalAccum, 0);
@@ -72,6 +78,14 @@ class FinanceStore {
 
   removeItemsByIds = (items, ids) => {
     return items.filter(item => !ids.has(item.id));
+  };
+
+  getItemsByIds = (items, ids) => {
+    if (ids.size > 0) {
+      return items.filter(item => ids.has(item.id));
+    } else {
+      return [];
+    }
   };
 }
 

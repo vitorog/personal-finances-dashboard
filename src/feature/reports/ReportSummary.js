@@ -53,7 +53,7 @@ class ReportSummary extends React.Component {
 
     const balance = totalIncome - totalExpenses;
 
-    const goalValue = totalIncome * goal;
+    const goalValue = totalIncome * (goal / 100.0);
 
     const totalBudget = totalIncome - goalValue;
     const budgetValue = totalIncome - totalExpenses - goalValue;
@@ -123,7 +123,7 @@ class ReportSummary extends React.Component {
     );
 
     return (
-      <div>
+      <React.Fragment>
         <section className="card-container">
           <Card title="Summary">
             {summaryData.hasData ? (
@@ -181,7 +181,7 @@ class ReportSummary extends React.Component {
                       <p className="title">
                         {this.printCurrency(summaryData.goalValue)}{" "}
                         <span className="is-size-6">
-                          ({this.printPercentage(summaryData.goal)})
+                          ({this.printPercentage(summaryData.goal / 100.0)})
                         </span>
                       </p>
                       <p className="subtitle">Goal</p>
@@ -217,7 +217,7 @@ class ReportSummary extends React.Component {
             </div>
           </section>
         ) : null}
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -6,8 +6,8 @@ const Select = props => {
     <div className="select">
       <select>
         {props.options.map(option => (
-          <option key={option} onClick={() => props.handleChange(option)}>
-            {option}
+          <option key={option.id} onClick={() => props.handleChange(option)}>
+            {option.value}
           </option>
         ))}
       </select>
@@ -16,7 +16,12 @@ const Select = props => {
 };
 
 Select.propTypes = {
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   handleChange: PropTypes.func.isRequired
 };
 

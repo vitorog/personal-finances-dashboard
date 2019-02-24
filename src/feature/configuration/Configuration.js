@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DataTable from "../../shared/DataTable";
 import TextFieldForm from "../../shared/TextFieldForm";
 import NonEmptyFieldValidator from "../../shared/NonEmptyFieldValidator";
-import {inject, observer} from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 class Configuration extends Component {
   render() {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DataTable from "../../shared/DataTable";
 import AddIncomeFormWithFormik from "./AddIncomeForm";
 import { inject, observer } from "mobx-react";
+import { incomeHeaders } from "./constants";
 
 class Income extends Component {
   render() {
@@ -10,11 +11,7 @@ class Income extends Component {
         <DataTable
           title={"Income"}
           data={this.props.finances.income}
-          headers={[
-            { name: "Description", accessor: "description" },
-            { name: "Value", accessor: "value", type: "currency" },
-            { name: "Date", accessor: "date" }
-          ]}
+          headers={incomeHeaders}
           footer={{
             description: "Total",
             value: this.props.finances.totalIncome,

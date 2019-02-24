@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import Modal from "../../layout/Modal";
-import CreateReportFormWithFormik from "./CreateReportForm";
 import Select from "../../layout/Select";
 import ReportSummary from "./ReportSummary";
-import SimpleTable from "../../shared/SimpleTable";
 import Card from "../../layout/Card";
-import {inject, observer} from "mobx-react";
+import { inject, observer } from "mobx-react";
+import CreateReportModal from "./CreateReportModal";
+import ExpensesTable from "../../shared/ExpensesTable";
+import IncomeTable from "../../shared/IncomeTable";
 
 class Reports extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedReport: this.props.finances.reports[0],
+      selectedReport: this.props.finances.reports[0] || null,
       isCreateReportModalVisible: false
     };
   }
@@ -21,49 +21,50 @@ class Reports extends Component {
       isCreateReportModalVisible: !prevState.isCreateReportModalVisible
     }));
 
-  handleCreateReport = reportData => {
-    const newReport = { ...reportData, incomeIds: [], expensesIds: [] };
+  handleReportChange = selectedOption => {
+    this.setState({
+      selectedReport: this.props.finances.getReportById(selectedOption.id)
+    });
+  };
+
+  handleCreateReport = report => {
+    this.props.finances.addReport(report);
+    this.setState({
+      selectedReport: report
+    });
     this.toggleCreateReportModal();
   };
 
-  handleReportChange = selectedReportName => {
-    console.log(selectedReportName);
-    // this.setState({ selectedReport });
-  };
-
   render() {
-    const reportNames = this.props.finances.reports.map(report => report.name);
-    const income = this.props.finances.income;
-    const expenses = this.props.finances.expenses;
-    const createReportFormName = "createReportForm";
+    let income = [];
+    let expenses = [];
+    if (this.state.selectedReport !== null) {
+      income = this.props.finances.getIncomeByIds(
+        this.state.selectedReport.incomeIds
+      );
+      expenses = this.props.finances.getExpensesByIds(
+        this.state.selectedReport.expensesIds
+      );
+    }
 
     return (
-      <div>
-        <Modal
-          title={"Create Report"}
+      <React.Fragment>
+        <CreateReportModal
           isVisible={this.state.isCreateReportModalVisible}
+          income={this.props.finances.income}
+          expenses={this.props.finances.expenses}
           toggleModal={this.toggleCreateReportModal}
-          submitButton={
-            <button
-              className="button"
-              type="submit"
-              form={createReportFormName}
-            >
-              Ok
-            </button>
-          }
-        >
-          <CreateReportFormWithFormik
-            formName={createReportFormName}
-            handleSubmit={this.handleCreateReport}
-          />
-        </Modal>
+          onCreateReport={this.handleCreateReport}
+        />
         <section className="card-container">
           <div className="level">
             <div className="level-left">
               <div className="level-item">
                 <Select
-                  options={reportNames}
+                  options={this.props.finances.reports.map(report => ({
+                    id: report.id,
+                    value: report.name
+                  }))}
                   handleChange={this.handleReportChange}
                 />
               </div>
@@ -83,37 +84,21 @@ class Reports extends Component {
         <ReportSummary
           income={income}
           expenses={expenses}
-          goal={this.state.selectedReport.goal}
+          goal={
+            this.state.selectedReport ? this.state.selectedReport.goal : null
+          }
         />
         <section className="card-container">
           <Card title="Income">
-            <SimpleTable
-              headers={[
-                { name: "Description", accessor: "description" },
-                { name: "Value", accessor: "value", type: "currency" },
-                { name: "Date", accessor: "date" }
-              ]}
-              data={income}
-              footer={{ description: "Total", value: 0, type: "currency" }}
-            />
+            <IncomeTable income={income} />
           </Card>
         </section>
         <section className="card-container">
           <Card title="Expenses">
-            <SimpleTable
-              headers={[
-                { name: "Description", accessor: "description" },
-                { name: "Value", accessor: "value", type: "currency" },
-                { name: "Category", accessor: "category" },
-                { name: "Payment", accessor: "paymentMethod" },
-                { name: "Date", accessor: "date" }
-              ]}
-              footer={{ description: "Total", value: 0, type: "currency" }}
-              data={expenses}
-            />
+            <ExpensesTable expenses={expenses} />
           </Card>
         </section>
-      </div>
+      </React.Fragment>
     );
   }
 }

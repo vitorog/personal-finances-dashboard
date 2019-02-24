@@ -27,9 +27,16 @@ const CreateReportForm = props => {
         </div>
       </div>
       <div className="field">
-        <label className="label is-pulled-left">Income Goal</label>
+        <label className="label is-pulled-left">Income Goal (%)</label>
         <div className="control">
-          <Field className="input" type="number" placeholder="" name="goal" />
+          <Field
+            className="input"
+            type="number"
+            placeholder=""
+            name="goal"
+            max="100"
+            min="0"
+          />
         </div>
       </div>
     </Form>

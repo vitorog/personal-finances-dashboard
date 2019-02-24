@@ -3,6 +3,7 @@ import ExpensesFilters from "./ExpensesFilters";
 import DataTable from "../../shared/DataTable";
 import AddExpenseFormWithFormik from "./AddExpenseForm";
 import { inject, observer } from "mobx-react";
+import { expensesHeaders } from "./constants";
 
 class Expenses extends Component {
   constructor(props) {
@@ -63,13 +64,7 @@ class Expenses extends Component {
           <DataTable
             title="Expenses"
             data={expenses}
-            headers={[
-              { name: "Description", accessor: "description" },
-              { name: "Value", accessor: "value", type: "currency" },
-              { name: "Category", accessor: "category" },
-              { name: "Payment", accessor: "paymentMethod" },
-              { name: "Date", accessor: "date" }
-            ]}
+            headers={expensesHeaders}
             footer={{ description: "Total", value: total, type: "currency" }}
             addForm={
               <AddExpenseFormWithFormik

@@ -72,10 +72,15 @@ class DataTable extends Component {
           title={"Add " + this.props.title}
           isVisible={this.state.isAddModalVisible}
           toggleModal={this.toggleAddModal}
-          submitButton={
-            <button className="button" type="submit" form={this.props.title}>
-              Ok
-            </button>
+          footer={
+            <React.Fragment>
+              <button className="button" onClick={this.toggleAddModal}>
+                Cancel
+              </button>
+              <button className="button" type="submit" form={this.props.title}>
+                Ok
+              </button>
+            </React.Fragment>
           }
         >
           {React.cloneElement(this.props.addForm, {

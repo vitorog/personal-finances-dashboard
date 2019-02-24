@@ -16,17 +16,7 @@ class Modal extends Component {
             />
           </header>
           <section className="modal-card-body">{this.props.children}</section>
-          <footer className="modal-card-foot">
-            <button className="button" onClick={this.props.toggleModal}>
-              Close
-            </button>
-            {this.props.buttons.map(btn => (
-              <button className="button" onClick={btn.callback}>
-                {btn.title}
-              </button>
-            ))}
-            {this.props.submitButton}
-          </footer>
+          <footer className="modal-card-foot">{this.props.footer}</footer>
         </div>
       </div>
     );
@@ -37,12 +27,7 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  buttons: PropTypes.array,
-  submitButton: PropTypes.element
-};
-
-Modal.defaultProps = {
-  buttons: []
+  footer: PropTypes.element
 };
 
 export default Modal;
