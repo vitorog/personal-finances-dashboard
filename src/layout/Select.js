@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 const Select = props => {
   return (
     <div className="select">
-      <select>
-        {props.options.map(option => (
-          <option key={option.id} onClick={() => props.handleChange(option)}>
-            {option.value}
-          </option>
-        ))}
+      <select disabled={props.options.length === 0}>
+        {props.options.length > 0 &&
+          props.options.map(option => (
+            <option key={option.id} onClick={() => props.handleChange(option)}>
+              {option.value}
+            </option>
+          ))}
+        {props.options.length === 0 && <option>No data</option>}
       </select>
     </div>
   );

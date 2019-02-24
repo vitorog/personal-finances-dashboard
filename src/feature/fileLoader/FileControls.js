@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { inject } from "mobx-react";
 
 class FileControls extends Component {
   constructor(props) {
@@ -13,14 +14,12 @@ class FileControls extends Component {
   }
 
   handleFileLoadEnd = event => {
-    // TODO: Change this reload and use redux instead
-    const dbState = JSON.parse(event.target.result);
-    // db.setState(dbState);
-    // db.write();
+    const financesData = JSON.parse(event.target.result);
+    localStorage.setItem("financesData", event.target.result);
+    this.props.finances.setData(financesData);
     // TODO: Remove this later ? Adding this just to see the loading spinner
     setTimeout(() => {
       this.setState({ isLoadingFile: false });
-      window.location.reload();
     }, 500);
   };
 
@@ -31,11 +30,26 @@ class FileControls extends Component {
     });
   };
 
-  handleclose = () => {
-    if (localStorage.getItem("db") !== null) {
-      localStorage.removeItem("db");
-      window.location.reload();
+  handleClose = () => {
+    if (localStorage.getItem("financesData") !== null) {
+      localStorage.removeItem("financesData");
+      this.props.finances.clearData();
     }
+  };
+
+  handleSave = () => {
+    //TODO: Is there a better way to download the file?
+    const data = this.props.finances.getData();
+    const blob = new Blob([JSON.stringify(data)], { type: "text/json" });
+    const link = document.createElement("a");
+    link.download = "finances.json";
+    link.href = window.URL.createObjectURL(blob);
+    link.dataset.downloadurl = ["text/json", link.download, link.href].join(
+      ":"
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   render() {
@@ -60,15 +74,15 @@ class FileControls extends Component {
           </a>
         </span>
         <span className="navbar-item">
-          <a className="button is-link">
+          <a className="button is-link" onClick={this.handleSave}>
             <span className="icon">
-              <i className="fas fa-sync" />
+              <i className="fas fa-save" />
             </span>
-            <span>Sync</span>
+            <span>Save</span>
           </a>
         </span>
         <span className="navbar-item">
-          <a className="button is-link" onClick={this.handleclose}>
+          <a className="button is-link" onClick={this.handleClose}>
             <span className="icon">
               <i className="fas fa-lock" />
             </span>
@@ -80,4 +94,4 @@ class FileControls extends Component {
   }
 }
 
-export default FileControls;
+export default inject("finances")(FileControls);

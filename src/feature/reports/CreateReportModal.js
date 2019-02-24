@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import CreateReportFormWithFormik from "./CreateReportForm";
 import Modal from "../../layout/Modal";
 import Card from "../../layout/Card";
-import SimpleTable from "../../shared/SimpleTable";
-import { inject } from "mobx-react";
 import ExpensesTable from "../../shared/ExpensesTable";
 import IncomeTable from "../../shared/IncomeTable";
 
@@ -59,8 +57,8 @@ class CreateReportModal extends Component {
     const report = {
       name: this.state.reportName,
       goal: this.state.reportGoal,
-      incomeIds: this.state.incomeIds,
-      expensesIds: this.state.expensesIds
+      incomeIds: Array.from(this.state.incomeIds),
+      expensesIds: Array.from(this.state.expensesIds)
     };
     this.props.onCreateReport(report);
   };
@@ -109,6 +107,8 @@ class CreateReportModal extends Component {
             </button>
           </React.Fragment>
         );
+        break;
+      default:
         break;
     }
 

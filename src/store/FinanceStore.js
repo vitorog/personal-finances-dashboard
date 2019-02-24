@@ -2,32 +2,17 @@ import { decorate, observable } from "mobx";
 import objectHash from "object-hash";
 
 class FinanceStore {
-  income = [
-    {
-      id: "1",
-      description: "Salary",
-      value: 10000,
-      date: "1 jan de 2018"
-    },
-    {
-      id: "2",
-      description: "Salary",
-      value: 10000,
-      date: "1 jan de 2018"
-    }
-  ];
+  income = [];
   expenses = [];
   categories = [];
   paymentMethods = [];
   reports = [];
 
   constructor() {
-    const db = JSON.parse(localStorage.getItem("db"));
-    this.income = db["income"];
-    this.expenses = db["expenses"];
-    this.categories = db["categories"];
-    this.paymentMethods = db["paymentMethods"];
-    this.reports = [];
+    if (localStorage.getItem("financesData") !== null) {
+      const financesData = JSON.parse(localStorage.getItem("financesData"));
+      this.setData(financesData);
+    }
   }
 
   addIncome = income => this.addWithHashId(income, this.income);
@@ -77,15 +62,41 @@ class FinanceStore {
   };
 
   removeItemsByIds = (items, ids) => {
-    return items.filter(item => !ids.has(item.id));
+    return items.filter(item => !ids.includes(item.id));
   };
 
   getItemsByIds = (items, ids) => {
-    if (ids.size > 0) {
-      return items.filter(item => ids.has(item.id));
+    if (ids.length > 0) {
+      return items.filter(item => ids.includes(item.id));
     } else {
       return [];
     }
+  };
+
+  getData = () => {
+    return {
+      income: this.income,
+      expenses: this.expenses,
+      reports: this.reports,
+      categories: this.categories,
+      paymentMethods: this.paymentMethods
+    };
+  };
+
+  setData = data => {
+    this.income = data.income;
+    this.expenses = data.expenses;
+    this.reports = data.reports;
+    this.categories = data.categories;
+    this.paymentMethods = data.paymentMethods;
+  };
+
+  clearData = () => {
+    this.income = [];
+    this.expenses = [];
+    this.reports = [];
+    this.categories = [];
+    this.paymentMethods = [];
   };
 }
 

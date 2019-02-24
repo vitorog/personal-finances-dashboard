@@ -21,7 +21,7 @@ class DataTable extends Component {
   };
 
   handleRemove = () => {
-    this.props.onRemove(this.state.selectedRowsIds);
+    this.props.onRemove(Array.from(this.state.selectedRowsIds));
     this.setState({ selectedRowsIds: new Set() });
   };
 
