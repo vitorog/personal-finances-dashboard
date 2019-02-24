@@ -12,6 +12,14 @@ class FinanceStore {
     if (localStorage.getItem("financesData") !== null) {
       const financesData = JSON.parse(localStorage.getItem("financesData"));
       this.setData(financesData);
+    }else{
+      // Adding this just as demonstration
+      console.log("Loading demo data.");
+      this.income = [{"id":"1","description":"Salary","value":10000,"date":"1 jan de 2018"},{"id":"2","description":"Salary","value":10000,"date":"1 feb de 2018"}];
+      this.expenses = [{"description":"Hotmart Guitar Evoluti","value":"5700","category":"Subscriptions","paymentMethod":"Nubank","date":"1 jan 2018","id":"5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"},{"description":"Sandwich","value":"3600","category":"Food","paymentMethod":"Nubank","date":"1 jan 2018","id":"5a4a2515"}];
+      this.reports = [{"name":"Example Report","goal":25,"incomeIds":["1","2"],"expensesIds":["5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995","5a4a2515"],"id":"ab032ff4778ca9e58123edc622b963e52b53a6e8"}];
+      this.categories = [{"id":0,"description":"Fixed"},{"id":1,"description":"Subscriptions"},{"id":2,"description":"Food"},{"id":3,"description":"Transportation"}];
+      this.paymentMethods = [{"id":0,"description":"Cash"},{"id":1,"description":"Nubank"}];
     }
   }
 
