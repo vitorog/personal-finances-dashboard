@@ -11,7 +11,6 @@ class Reports extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedReport: this.props.finances.reports[0] || null,
       isCreateReportModalVisible: false
     };
   }
@@ -22,31 +21,32 @@ class Reports extends Component {
     }));
 
   handleReportChange = selectedOption => {
-    this.setState({
-      selectedReport: this.props.finances.getReportById(selectedOption.id)
-    });
+    this.props.finances.setSelectedReportId(selectedOption.id);
   };
 
   handleCreateReport = report => {
     this.props.finances.addReport(report);
-    this.setState({
-      selectedReport: report
-    });
+    this.props.finances.setSelectedReportId(report.id);
     this.toggleCreateReportModal();
   };
 
   render() {
-    let income = [];
-    let expenses = [];
-    if (this.state.selectedReport !== null) {
-      income = this.props.finances.getIncomeByIds(
-        this.state.selectedReport.incomeIds
-      );
-      expenses = this.props.finances.getExpensesByIds(
-        this.state.selectedReport.expensesIds
-      );
-    }
+    let income;
+    let expenses;
+    let goal;
 
+    const selectedReport = this.props.finances.selectedReport;
+    if (selectedReport) {
+      income = this.props.finances.getIncomeByIds(selectedReport.incomeIds);
+      expenses = this.props.finances.getExpensesByIds(
+        selectedReport.expensesIds
+      );
+      goal = selectedReport.goal;
+    } else {
+      income = [];
+      expenses = [];
+      goal = null;
+    }
     return (
       <React.Fragment>
         <CreateReportModal
@@ -61,6 +61,7 @@ class Reports extends Component {
             <div className="level-left">
               <div className="level-item">
                 <Select
+                  selected={selectedReport}
                   options={this.props.finances.reports.map(report => ({
                     id: report.id,
                     value: report.name
@@ -81,13 +82,7 @@ class Reports extends Component {
             </div>
           </div>
         </section>
-        <ReportSummary
-          income={income}
-          expenses={expenses}
-          goal={
-            this.state.selectedReport ? this.state.selectedReport.goal : null
-          }
-        />
+        <ReportSummary income={income} expenses={expenses} goal={goal} />
         <section className="card-container">
           <Card title="Income">
             <IncomeTable income={income} />

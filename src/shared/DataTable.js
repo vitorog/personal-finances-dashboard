@@ -5,12 +5,14 @@ import Modal from "../layout/Modal";
 import PropTypes from "prop-types";
 import Dropdown from "../layout/Dropdown";
 import DropdownItem from "../layout/DropdownItem";
+import ReportSelectorModal from "./ReportSelectorModal";
 
 class DataTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isAddModalVisible: false,
+      isSelectReportModalVisible: false,
       selectedRowsIds: new Set()
     };
   }
@@ -25,12 +27,22 @@ class DataTable extends Component {
     this.setState({ selectedRowsIds: new Set() });
   };
 
+  handleAddToReport = report => {
+    this.props.onAddToReport(report, this.state.selectedRowsIds);
+    this.toggleSelectReport();
+  };
+
   handleSelectionChange = selectedRowsIds => {
     this.setState({ selectedRowsIds });
   };
 
   toggleAddModal = () =>
     this.setState({ isAddModalVisible: !this.state.isAddModalVisible });
+
+  toggleSelectReport = () =>
+    this.setState({
+      isSelectReportModalVisible: !this.state.isSelectReportModalVisible
+    });
 
   getCardActions = () => {
     return (
@@ -46,6 +58,14 @@ class DataTable extends Component {
           callback={this.handleRemove}
           isActive={this.state.selectedRowsIds.size > 0}
         />
+        {this.props.onAddToReport && (
+          <DropdownItem
+            text="Add to report"
+            icon="fa fa-plus"
+            callback={this.toggleSelectReport}
+            isActive={this.state.selectedRowsIds.size > 0}
+          />
+        )}
         {this.props.customActions}
       </Dropdown>
     );
@@ -88,6 +108,12 @@ class DataTable extends Component {
             handleSubmit: this.handleAdd
           })}
         </Modal>
+        <ReportSelectorModal
+          title={"Select Report"}
+          isVisible={this.state.isSelectReportModalVisible}
+          toggleModal={this.toggleSelectReport}
+          onConfirm={this.handleAddToReport}
+        />
       </React.Fragment>
     );
   }
@@ -107,6 +133,7 @@ DataTable.propTypes = {
   footer: PropTypes.object,
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
+  onAddToReport: PropTypes.func,
   customActions: PropTypes.element
 };
 

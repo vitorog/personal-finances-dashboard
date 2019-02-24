@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 const Select = props => {
   return (
     <div className="select">
-      <select disabled={props.options.length === 0}>
+      <select
+        disabled={props.options.length === 0}
+        defaultValue={props.selected}
+      >
         {props.options.length > 0 &&
           props.options.map(option => (
             <option key={option.id} onClick={() => props.handleChange(option)}>

@@ -20,6 +20,7 @@ class Income extends Component {
           addForm={<AddIncomeFormWithFormik />}
           onAdd={this.props.finances.addIncome}
           onRemove={this.props.finances.removeIncomeByIds}
+          onAddToReport={this.props.finances.addIncomeToReport}
         />
       </section>
     );

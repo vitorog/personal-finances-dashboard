@@ -74,6 +74,7 @@ class Expenses extends Component {
             }
             onAdd={this.props.finances.addExpense}
             onRemove={this.props.finances.removeExpensesByIds}
+            onAddToReport={this.props.finances.addExpensesToReport}
           />
         </section>
       </React.Fragment>

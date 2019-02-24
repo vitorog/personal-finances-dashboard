@@ -7,7 +7,7 @@ const DropdownActionItem = props => {
       className={
         "dropdown-item " + (!props.isActive ? "is-disabled-link disabled" : "")
       }
-      onClick={props.callback}
+      onClick={() => props.isActive && props.callback()}
     >
       <span className="icon is-small">
         <i className={props.icon} />

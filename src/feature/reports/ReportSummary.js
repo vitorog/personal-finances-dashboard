@@ -194,7 +194,7 @@ class ReportSummary extends React.Component {
             )}
           </Card>
         </section>
-        {summaryData.hasData ? (
+        {summaryData.hasData && (
           <section className="card-container">
             {" "}
             <div className="columns" />
@@ -216,7 +216,7 @@ class ReportSummary extends React.Component {
               </div>
             </div>
           </section>
-        ) : null}
+        )}
       </React.Fragment>
     );
   }
