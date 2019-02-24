@@ -53,11 +53,11 @@ class FinanceStore {
   }
 
   addIncome = income => this.addWithHashId(income, this.income);
-  addExpense = expense => this.addWithHashId(expense, this.data.expenses);
+  addExpense = expense => this.addWithHashId(expense, this.expenses);
   addPaymentMethod = paymentMethod =>
-    this.addWithHashId(paymentMethod, this.paymentMethod);
-  addCategory = category => this.addWithHashId(category, this.data.categories);
-  addReport = report => this.addWithHashId(report, this.data.reports);
+    this.addWithHashId(paymentMethod, this.paymentMethods);
+  addCategory = category => this.addWithHashId(category, this.categories);
+  addReport = report => this.addWithHashId(report, this.reports);
 
   addIncomeToReport = (report, incomeIds) => {
     const reportIncomeIds = new Set([...report.incomeIds, ...incomeIds]);
@@ -133,6 +133,7 @@ class FinanceStore {
   };
 
   setData = data => {
+    // This prevents any deepObservers from being cleared, since the reference to "data" is not changed
     Object.assign(this.data, data);
     this.selectedReportId = this.data.reports[0]
       ? this.data.reports[0].id
@@ -140,13 +141,14 @@ class FinanceStore {
   };
 
   clearData = () => {
-    this.data = {
+    // This prevents any deepObservers from being cleared, since the reference to "data" is not changed
+    Object.assign(this.data, {
       income: [],
       expenses: [],
       reports: [],
       categories: [],
       paymentMethods: []
-    };
+    });
   };
 }
 

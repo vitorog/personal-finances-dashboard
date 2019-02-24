@@ -77,7 +77,7 @@ class FileControls extends Component {
     }
 
     //TODO: Check performance of doing this with large datasets
-    deepObserve(this.props.finances.data, this.saveToLocalStorage());
+    deepObserve(this.props.finances.data, this.saveToLocalStorage);
   }
 
   handleFileLoadEnd = event => {
@@ -106,7 +106,7 @@ class FileControls extends Component {
 
   handleSave = () => {
     //TODO: Is there a better way to download the file?
-    const data = this.props.finances.getData();
+    const data = this.props.finances.data;
     const blob = new Blob([JSON.stringify(data)], { type: "text/json" });
     const link = document.createElement("a");
     link.download = "finances.json";

@@ -50,16 +50,16 @@ class Expenses extends Component {
     const total = expenses.reduce((accum, p) => accum + Number(p.value), 0);
     return (
       <React.Fragment>
-        <section className="card-container">
-          {hasData ? (
+        {hasData && (
+          <section className="card-container">
             <ExpensesFilters
               categories={categories}
               paymentMethods={paymentMethods}
               handleApplyFilters={this.handleApplyFilters}
               handleResetFilters={this.handleResetFilters}
             />
-          ) : null}
-        </section>
+          </section>
+        )}
         <section className="card-container">
           <DataTable
             title="Expenses"

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {observer} from "mobx-react";
 
 class SimpleTable extends React.Component {
   constructor(props) {
@@ -139,4 +140,5 @@ SimpleTable.defaultProps = {
   onSelectionChange: () => {}
 };
 
-export default SimpleTable;
+// This is required, because SimpleTable renders observable components
+export default observer(SimpleTable);
