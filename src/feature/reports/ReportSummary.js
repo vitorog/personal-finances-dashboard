@@ -14,7 +14,7 @@ class ReportSummary extends React.Component {
   getExpensesByCategory = expenses => {
     const expensesByCategory = new Map();
     expenses.forEach(expense => {
-      const category = expense.category;
+      const category = expense.category ? expense.category : "No category";
       const value = expense.value;
       if (!expensesByCategory.has(category)) {
         expensesByCategory.set(category, value / 100);
@@ -49,7 +49,7 @@ class ReportSummary extends React.Component {
       0
     );
 
-    const percentExpenses = totalExpenses / totalIncome;
+    const percentExpenses = totalIncome > 0 ? totalExpenses / totalIncome : null;
 
     const balance = totalIncome - totalExpenses;
 
@@ -159,9 +159,9 @@ class ReportSummary extends React.Component {
                     <article className="tile is-child notification is-danger">
                       <p className="title">
                         {this.printCurrency(summaryData.totalExpenses)}{" "}
-                        <span className="is-size-6">
+                        {summaryData.percentExpenses && <span className="is-size-6">
                           ({this.printPercentage(summaryData.percentExpenses)})
-                        </span>
+                        </span>}
                       </p>
                       <p className="subtitle">Expenses</p>
                     </article>
