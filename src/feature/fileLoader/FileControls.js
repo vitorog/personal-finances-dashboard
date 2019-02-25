@@ -80,7 +80,12 @@ class FileControls extends Component {
 
   componentDidMount() {
     //TODO: Check performance of doing this with large datasets
-    this.setState({dataObserver: deepObserve(this.props.finances.data, this.saveToLocalStorage)});
+    this.setState({
+      dataObserver: deepObserve(
+        this.props.finances.data,
+        this.saveToLocalStorage
+      )
+    });
   }
 
   handleFileLoadEnd = event => {
@@ -106,7 +111,12 @@ class FileControls extends Component {
     }
     this.state.dataObserver();
     this.props.finances.clearData();
-    this.setState({dataObserver: deepObserve(this.props.finances.data, this.saveToLocalStorage)});
+    this.setState({
+      dataObserver: deepObserve(
+        this.props.finances.data,
+        this.saveToLocalStorage
+      )
+    });
   };
 
   handleSave = () => {
@@ -125,13 +135,16 @@ class FileControls extends Component {
   };
 
   saveToLocalStorage = () => {
-    localStorage.setItem("financesData", JSON.stringify(this.props.finances.data));
+    localStorage.setItem(
+      "financesData",
+      JSON.stringify(this.props.finances.data)
+    );
   };
 
   render() {
     const isLoading = this.state.isLoadingFile ? "is-loading" : "";
     return (
-      <div className="navbar-end">
+      <React.Fragment>
         <span className="navbar-item">
           <a
             className={"button is-link " + isLoading}
@@ -165,7 +178,7 @@ class FileControls extends Component {
             <span>Close</span>
           </a>
         </span>
-      </div>
+      </React.Fragment>
     );
   }
 }

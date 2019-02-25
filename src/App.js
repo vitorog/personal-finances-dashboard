@@ -29,7 +29,7 @@ class App extends Component {
                   <Route
                     exact
                     path="/"
-                    render={() => <Redirect to="/income" />}
+                    render={() => <Redirect to="/reports" />}
                   />
                   <Route path="/reports" component={Reports} />
                   <Route path="/income" component={Income} />

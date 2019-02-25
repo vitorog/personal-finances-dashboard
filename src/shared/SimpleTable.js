@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 
 class SimpleTable extends React.Component {
   constructor(props) {

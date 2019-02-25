@@ -1,4 +1,4 @@
-import { decorate, observable } from "mobx";
+import { computed, decorate, observable } from "mobx";
 import objectHash from "object-hash";
 
 class FinanceStore {
@@ -70,6 +70,13 @@ class FinanceStore {
     );
   };
 
+  addExpenses = expenses => {
+    const expensesIds = this.expensesIds;
+    this.data.expenses = this.data.expenses.concat(
+      expenses.filter(elem => !expensesIds.has(elem.id))
+    );
+  };
+
   removeIncomeByIds = ids => {
     this.income = this.removeItemsByIds(this.income, ids);
   };
@@ -109,6 +116,14 @@ class FinanceStore {
     return this.data.expenses.reduce(this.getTotalAccum, 0);
   }
 
+  get incomeIds() {
+    return new Set(this.mapToId(this.income));
+  }
+
+  get expensesIds() {
+    return new Set(this.mapToId(this.expenses));
+  }
+
   get selectedReport() {
     return this.getReportById(this.selectedReportId);
   }
@@ -130,6 +145,10 @@ class FinanceStore {
     } else {
       return [];
     }
+  };
+
+  mapToId = items => {
+    return items.map(item => item.id);
   };
 
   setData = data => {
@@ -154,7 +173,8 @@ class FinanceStore {
 
 decorate(FinanceStore, {
   data: observable,
-  selectedReportId: observable
+  selectedReportId: observable,
+  expensesIds: computed
 });
 
 export default new FinanceStore();
