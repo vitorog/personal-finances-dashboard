@@ -13,7 +13,8 @@ class DataTable extends Component {
     this.state = {
       isAddModalVisible: false,
       isSelectReportModalVisible: false,
-      selectedRowsIds: new Set()
+      selectedRowsIds: new Set(),
+      sort: null
     };
   }
 
@@ -34,6 +35,19 @@ class DataTable extends Component {
 
   handleSelectionChange = selectedRowsIds => {
     this.setState({ selectedRowsIds });
+  };
+
+  handleSort = property => {
+    let direction = "asc";
+    if (this.state.sort !== null) {
+      const currDir = this.state.sort.direction;
+      if (currDir === "asc") {
+        direction = "desc";
+      }
+    }
+    this.setState({
+      sort: { property: property, direction: direction }
+    });
   };
 
   toggleAddModal = () =>
@@ -72,10 +86,22 @@ class DataTable extends Component {
   };
 
   renderData() {
+    const data = this.state.sort
+      ? this.props.data.sort((a, b) => {
+          if (this.state.sort.direction === "asc") {
+            return a[this.state.sort.property] >= b[this.state.sort.property];
+          } else {
+            return a[this.state.sort.property] <= b[this.state.sort.property];
+          }
+        })
+      : this.props.data;
     return (
       <SimpleTable
+        isSortable={true}
+        sort={this.state.sort}
+        onSortChange={this.handleSort}
         headers={this.props.headers}
-        data={this.props.data}
+        data={data}
         footer={this.props.footer}
         onSelectionChange={this.handleSelectionChange}
       />

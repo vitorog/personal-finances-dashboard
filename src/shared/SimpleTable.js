@@ -78,7 +78,28 @@ class SimpleTable extends React.Component {
                 />
               </th>
               {this.props.headers.map(header => (
-                <th key={header.name}>{header.name}</th>
+                <th key={header.name}>
+                  {this.props.isSortable ? (
+                    <a
+                      className="is-text"
+                      onClick={() => this.props.onSortChange(header.accessor)}
+                    >
+                      {header.name}{" "}
+                      {this.props.sort &&
+                        this.props.sort.property === header.accessor &&
+                        this.props.sort.direction === "asc" && (
+                          <i className="fa fa-sort-up" />
+                        )}
+                      {this.props.sort &&
+                        this.props.sort.property === header.accessor &&
+                        this.props.sort.direction === "desc" && (
+                          <i className="fa fa-sort-down" />
+                        )}
+                    </a>
+                  ) : (
+                    header.name
+                  )}
+                </th>
               ))}
             </tr>
           </thead>
@@ -135,6 +156,7 @@ class SimpleTable extends React.Component {
 }
 
 SimpleTable.propTypes = {
+  isSortable: PropTypes.bool,
   headers: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -144,13 +166,16 @@ SimpleTable.propTypes = {
   ).isRequired,
   data: PropTypes.array.isRequired,
   footer: PropTypes.object,
-  onSelectionChange: PropTypes.func
+  onSelectionChange: PropTypes.func,
+  onSortChange: PropTypes.func
 };
 
 SimpleTable.defaultProps = {
+  isSortable: false,
   header: ["Empty"],
   data: [],
-  onSelectionChange: () => {}
+  onSelectionChange: () => {},
+  onSortChange: () => {}
 };
 
 // This is required, because SimpleTable renders observable components
