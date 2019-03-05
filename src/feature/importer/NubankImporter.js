@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { inject } from "mobx-react";
 import Modal from "../../layout/Modal";
+import moment from "moment";
 
 const nubankEventsAPI =
   "https://prod-s0-webapp-proxy.nubank.com.br//api/proxy/AJxL5LBXpt2AE_Fgf6VhQySZjwN1QoLoxg.aHR0cHM6Ly9wcm9kLXMwLWZhY2FkZS5udWJhbmsuY29tLmJyL2FwaS9jdXN0b21lcnMvNTRmNzBkMmYtNWYwNS00YjQxLWIyMGEtMGQ2ZGNkYjYzOWVkL2ZlZWQ";
@@ -39,19 +40,18 @@ class NubankImporter extends Component {
         const expenses = response.data.events
           .filter(event => event.category === "transaction")
           .map(element => {
-            const date = new Date(Date.parse(element.time));
             return {
               description: element.description,
-              value: element.amount,
+              value: (element.amount / 100.0).toFixed(2),
               paymentMethod: "Nubank",
               category: "",
-              time: date,
-              date: date.toDateString(),
-              id: element.id
+              date: moment(element.time, "YYYY-MM-DD hh:mm:ss").toDate(),
+              id: element.id,
+              details: element.details
             };
           })
-          .filter(p => p.time.getFullYear() >= this.state.yearFilter)
-          .sort((a, b) => b.time - a.time);
+          .filter(p => p.date.getFullYear() >= this.state.yearFilter)
+          .sort((a, b) => b.date - a.date);
         this.props.finances.addExpenses(expenses);
       })
       .catch(error => {

@@ -104,9 +104,9 @@ class FinanceStore {
     this.selectedReportId = id;
   };
 
-  getIncomeByIds = ids => this.getItemsByIds(this.data.income, ids);
+  getIncomeByIds = ids => this.getItemsByIds(this.income, ids);
 
-  getExpensesByIds = ids => this.getItemsByIds(this.data.expenses, ids);
+  getExpensesByIds = ids => this.getItemsByIds(this.expenses, ids);
 
   get totalIncome() {
     return this.data.income.reduce(this.getTotalAccum, 0);

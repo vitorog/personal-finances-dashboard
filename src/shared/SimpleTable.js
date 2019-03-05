@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
+import { FormattedDate, FormattedNumber } from "react-intl";
 
 class SimpleTable extends React.Component {
   constructor(props) {
@@ -44,9 +45,21 @@ class SimpleTable extends React.Component {
   };
 
   parseValue = (value, header) => {
-    // TODO: Add proper locale
+    if (!value) {
+      return "";
+    }
     if (header.type === "currency") {
-      return "R$" + (value / 100).toFixed(2);
+      return (
+        <FormattedNumber
+          value={value}
+          style="currency"
+          currency="BRL"
+          minimumFractionDigits="2"
+        />
+      );
+    }
+    if (header.type === "date") {
+      return <FormattedDate value={value} />;
     }
     return value;
   };

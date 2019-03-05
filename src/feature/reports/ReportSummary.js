@@ -1,16 +1,9 @@
 import React from "react";
 import Card from "../../layout/Card";
 import { Pie } from "react-chartjs-2";
+import { FormattedNumber } from "react-intl";
 
 class ReportSummary extends React.Component {
-  printPercentage = value => {
-    return (value * 100).toFixed(2) + "%";
-  };
-
-  printCurrency = value => {
-    return "R$ " + (value / 100).toFixed(2);
-  };
-
   getExpensesByCategory = expenses => {
     const expensesByCategory = new Map();
     expenses.forEach(expense => {
@@ -49,11 +42,12 @@ class ReportSummary extends React.Component {
       0
     );
 
-    const percentExpenses = totalIncome > 0 ? totalExpenses / totalIncome : null;
+    const percentExpenses =
+      totalIncome > 0 ? totalExpenses / totalIncome : null;
 
     const balance = totalIncome - totalExpenses;
 
-    const goalValue = totalIncome * (goal / 100.0);
+    const goalValue = totalIncome * goal;
 
     const totalBudget = totalIncome - goalValue;
     const budgetValue = totalIncome - totalExpenses - goalValue;
@@ -132,7 +126,12 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-info">
                       <p className="title">
-                        {this.printCurrency(summaryData.totalBudget)}
+                        <FormattedNumber
+                          value={summaryData.totalBudget}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />{" "}
                       </p>
                       <p className="subtitle">Budget</p>
                     </article>
@@ -140,7 +139,12 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-warning">
                       <p className="title">
-                        {this.printCurrency(summaryData.budgetValue)}
+                        <FormattedNumber
+                          value={summaryData.budgetValue}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />
                       </p>
                       <p className="subtitle">Remaining</p>
                     </article>
@@ -150,7 +154,12 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-success">
                       <p className="title">
-                        {this.printCurrency(summaryData.totalIncome)}
+                        <FormattedNumber
+                          value={summaryData.totalIncome}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />
                       </p>
                       <p className="subtitle">Income</p>
                     </article>
@@ -158,10 +167,21 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-danger">
                       <p className="title">
-                        {this.printCurrency(summaryData.totalExpenses)}{" "}
-                        {summaryData.percentExpenses && <span className="is-size-6">
-                          ({this.printPercentage(summaryData.percentExpenses)})
-                        </span>}
+                        <FormattedNumber
+                          value={summaryData.totalExpenses}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />{" "}
+                        {summaryData.percentExpenses && (
+                          <span className="is-size-6">
+                            <FormattedNumber
+                              value={summaryData.percentExpenses}
+                              style="percent"
+                              minimumFractionDigits="2"
+                            />
+                          </span>
+                        )}
                       </p>
                       <p className="subtitle">Expenses</p>
                     </article>
@@ -171,7 +191,12 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-primary">
                       <p className="title">
-                        {this.printCurrency(summaryData.balance)}
+                        <FormattedNumber
+                          value={summaryData.balance}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />
                       </p>
                       <p className="subtitle">Balance</p>
                     </article>
@@ -179,9 +204,18 @@ class ReportSummary extends React.Component {
                   <div className="tile is-parent">
                     <article className="tile is-child notification is-info">
                       <p className="title">
-                        {this.printCurrency(summaryData.goalValue)}{" "}
+                        <FormattedNumber
+                          value={summaryData.goalValue}
+                          style="currency"
+                          currency="BRL"
+                          minimumFractionDigits="2"
+                        />{" "}
                         <span className="is-size-6">
-                          ({this.printPercentage(summaryData.goal / 100.0)})
+                          <FormattedNumber
+                            value={summaryData.goal}
+                            style="percent"
+                            minimumFractionDigits="2"
+                          />
                         </span>
                       </p>
                       <p className="subtitle">Goal</p>

@@ -7,38 +7,38 @@ const demoData = {
     {
       id: "1",
       description: "Salary",
-      value: 10000,
-      date: "1 jan de 2018"
+      value: 100.0,
+      date: "2018/01/01"
     },
     {
       id: "2",
       description: "Salary",
-      value: 10000,
-      date: "1 feb de 2018"
+      value: 100.0,
+      date: "2018/01/01"
     }
   ],
   expenses: [
     {
       description: "Hotmart Guitar Evoluti",
-      value: "5700",
+      value: 57.0,
       category: "Subscriptions",
       paymentMethod: "Nubank",
-      date: "1 jan 2018",
+      date: "2018/03/01",
       id: "5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995"
     },
     {
       description: "Sandwich",
-      value: "3600",
+      value: 36.0,
       category: "Food",
       paymentMethod: "Nubank",
-      date: "1 jan 2018",
+      date: "2018/03/01",
       id: "5a4a2515"
     }
   ],
   reports: [
     {
       name: "Example Report",
-      goal: 25,
+      goal: 0.25,
       incomeIds: ["1", "2"],
       expensesIds: ["5a4a251b-ac2d-4d3a-8a56-ef7b0c84c995", "5a4a2515"],
       id: "ab032ff4778ca9e58123edc622b963e52b53a6e8"

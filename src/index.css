@@ -22,3 +22,11 @@ body {
 .is-disabled-link {
     color: #aaa !important;
 }
+
+.modal-card {
+    overflow: visible !important;
+}
+
+.modal-card-body {
+    overflow: visible !important;
+}

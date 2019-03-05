@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import moment from "moment";
 import PropTypes from "prop-types";
+import DatePicker from "react-datepicker";
 
 const AddExpenseForm = props => {
   return (
@@ -66,11 +67,10 @@ const AddExpenseForm = props => {
       <div className="field">
         <label className="label is-pulled-left">Date</label>
         <div className="control">
-          <Field
-            className="input"
-            type="date"
-            name="date"
-            value={props.values.date}
+          <DatePicker
+            onChange={e => props.setFieldValue("date", e)}
+            value={moment(props.values.date).format("YYYY-MM-DD")}
+            format="YYYY-MM-DD"
           />
         </div>
       </div>
@@ -121,6 +121,7 @@ const AddExpenseFormWithFormik = props => {
         date: moment().format("YYYY-MM-DD")
       }}
       onSubmit={(values, { setSubmitting }) => {
+        values.date = moment(values.date).toISOString();
         props.handleSubmit(values);
         setSubmitting(false);
       }}
