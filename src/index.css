@@ -30,3 +30,11 @@ body {
 .modal-card-body {
     overflow: visible !important;
 }
+
+.select, select  {
+    width: 100%;
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container {
+    width: 100%;
+}

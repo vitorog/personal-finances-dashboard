@@ -10,10 +10,10 @@ class ReportSummary extends React.Component {
       const category = expense.category ? expense.category : "No category";
       const value = expense.value;
       if (!expensesByCategory.has(category)) {
-        expensesByCategory.set(category, value / 100);
+        expensesByCategory.set(category, value);
       } else {
         const previousValue = expensesByCategory.get(category);
-        expensesByCategory.set(category, previousValue + value / 100);
+        expensesByCategory.set(category, previousValue + value);
       }
     });
     return expensesByCategory;
@@ -25,10 +25,10 @@ class ReportSummary extends React.Component {
       const paymentMethod = expense.paymentMethod;
       const value = expense.value;
       if (!paymentMethodByCategory.has(paymentMethod)) {
-        paymentMethodByCategory.set(paymentMethod, value / 100);
+        paymentMethodByCategory.set(paymentMethod, value);
       } else {
         const previousValue = paymentMethodByCategory.get(paymentMethod);
-        paymentMethodByCategory.set(paymentMethod, previousValue + value / 100);
+        paymentMethodByCategory.set(paymentMethod, previousValue + value);
       }
     });
     return paymentMethodByCategory;
@@ -82,7 +82,7 @@ class ReportSummary extends React.Component {
       labels: ["Expenses", "Remaining", "Goal"],
       datasets: [
         {
-          data: [totalExpenses / 100, budgetValue / 100, goalValue / 100],
+          data: [totalExpenses, budgetValue, goalValue],
           backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
           hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
         }
@@ -130,7 +130,7 @@ class ReportSummary extends React.Component {
                           value={summaryData.totalBudget}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />{" "}
                       </p>
                       <p className="subtitle">Budget</p>
@@ -143,7 +143,7 @@ class ReportSummary extends React.Component {
                           value={summaryData.budgetValue}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />
                       </p>
                       <p className="subtitle">Remaining</p>
@@ -158,7 +158,7 @@ class ReportSummary extends React.Component {
                           value={summaryData.totalIncome}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />
                       </p>
                       <p className="subtitle">Income</p>
@@ -171,14 +171,14 @@ class ReportSummary extends React.Component {
                           value={summaryData.totalExpenses}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />{" "}
                         {summaryData.percentExpenses && (
                           <span className="is-size-6">
                             <FormattedNumber
                               value={summaryData.percentExpenses}
                               style="percent"
-                              minimumFractionDigits="2"
+                              minimumFractionDigits={2}
                             />
                           </span>
                         )}
@@ -195,7 +195,7 @@ class ReportSummary extends React.Component {
                           value={summaryData.balance}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />
                       </p>
                       <p className="subtitle">Balance</p>
@@ -208,13 +208,13 @@ class ReportSummary extends React.Component {
                           value={summaryData.goalValue}
                           style="currency"
                           currency="BRL"
-                          minimumFractionDigits="2"
+                          minimumFractionDigits={2}
                         />{" "}
                         <span className="is-size-6">
                           <FormattedNumber
                             value={summaryData.goal}
                             style="percent"
-                            minimumFractionDigits="2"
+                            minimumFractionDigits={2}
                           />
                         </span>
                       </p>

@@ -47,7 +47,9 @@ class NubankImporter extends Component {
               category: "",
               date: moment(element.time, "YYYY-MM-DD hh:mm:ss").toDate(),
               id: element.id,
-              details: element.details
+              details: element.details,
+              repeatMonths: 0,
+              splitMonths: 0
             };
           })
           .filter(p => p.date.getFullYear() >= this.state.yearFilter)

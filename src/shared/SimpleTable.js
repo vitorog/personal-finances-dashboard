@@ -54,7 +54,7 @@ class SimpleTable extends React.Component {
           value={value}
           style="currency"
           currency="BRL"
-          minimumFractionDigits="2"
+          minimumFractionDigits={2}
         />
       );
     }

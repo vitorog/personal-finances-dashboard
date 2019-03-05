@@ -1,5 +1,6 @@
 import { computed, decorate, observable } from "mobx";
 import objectHash from "object-hash";
+import moment from "moment";
 
 class FinanceStore {
   data = {
@@ -53,7 +54,30 @@ class FinanceStore {
   }
 
   addIncome = income => this.addWithHashId(income, this.income);
-  addExpense = expense => this.addWithHashId(expense, this.expenses);
+  addExpense = expense => {
+    if (expense.repeatMonths > 0) {
+      this.addWithHashId(expense, this.expenses);
+      for (let i = 0; i < expense.repeatMonths; i++) {
+        const newExpense = Object.assign({}, expense);
+        newExpense.date = moment(expense.date)
+          .add(i + 1, "month")
+          .format();
+        this.addWithHashId(newExpense, this.expenses);
+      }
+    } else if (expense.splitMonths > 0) {
+      for (let i = 0; i < expense.splitMonths; i++) {
+        const newExpense = Object.assign({}, expense);
+        newExpense.description += ` ${i + 1}/${expense.splitMonths}`;
+        newExpense.date = moment(expense.date)
+          .add(i + 1, "month")
+          .format();
+        newExpense.value = (expense.value / expense.splitMonths).toFixed(2);
+        this.addWithHashId(newExpense, this.expenses);
+      }
+    } else {
+      this.addWithHashId(expense, this.expenses);
+    }
+  };
   addPaymentMethod = paymentMethod =>
     this.addWithHashId(paymentMethod, this.paymentMethods);
   addCategory = category => this.addWithHashId(category, this.categories);
