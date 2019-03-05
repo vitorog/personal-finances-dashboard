@@ -47,8 +47,8 @@ const CreateReportFormWithFormik = props => {
   return (
     <Formik
       initialValues={{
-        name: "",
-        goal: 0
+        name: "New Report",
+        goal: 25.0
       }}
       onSubmit={(values, { setSubmitting }) => {
         props.handleSubmit(values);

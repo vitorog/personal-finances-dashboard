@@ -69,7 +69,7 @@ class FinanceStore {
         const newExpense = Object.assign({}, expense);
         newExpense.description += ` ${i + 1}/${expense.splitMonths}`;
         newExpense.date = moment(expense.date)
-          .add(i + 1, "month")
+          .add(i, "month")
           .format();
         newExpense.value = (expense.value / expense.splitMonths).toFixed(2);
         this.addWithHashId(newExpense, this.expenses);
@@ -96,9 +96,9 @@ class FinanceStore {
 
   addExpenses = expenses => {
     const expensesIds = this.expensesIds;
-    this.data.expenses = this.data.expenses.concat(
-      expenses.filter(elem => !expensesIds.has(elem.id))
-    );
+    expenses
+      .filter(elem => !expensesIds.has(elem.id))
+      .forEach(e => this.addExpense(e));
   };
 
   removeIncomeByIds = ids => {

@@ -4,6 +4,7 @@ import DataTable from "../../shared/DataTable";
 import AddExpenseFormWithFormik from "./AddExpenseForm";
 import { inject, observer } from "mobx-react";
 import { expensesHeaders } from "./constants";
+import moment from "moment";
 
 class Expenses extends Component {
   constructor(props) {
@@ -30,7 +31,13 @@ class Expenses extends Component {
 
       let result = true;
       for (let key in filters) {
-        if (filters.hasOwnProperty(key) && filters[key]) {
+        if (key === "startDate") {
+          result =
+            result && moment(p.date) >= moment(filters[key]).startOf("day");
+        } else if (key === "endDate") {
+          result =
+            result && moment(p.date) <= moment(filters[key]).endOf("day");
+        } else if (filters.hasOwnProperty(key) && filters[key]) {
           result = result && filters[key] === p[key];
         }
       }
@@ -40,7 +47,7 @@ class Expenses extends Component {
 
   render() {
     const expenses = this.applyFilters(this.props.finances.expenses);
-    const hasData = expenses.length > 0;
+    const hasData = expenses.length > 0 || this.state.filters;
     const categories = this.props.finances.categories.map(
       elem => elem.description
     );
@@ -62,7 +69,7 @@ class Expenses extends Component {
         )}
         <section className="card-container">
           <DataTable
-            title="Expenses"
+            title={this.state.filters ? "Filtered Expenses" : "Expenses"}
             data={expenses}
             headers={expensesHeaders}
             footer={{ description: "Total", value: total, type: "currency" }}

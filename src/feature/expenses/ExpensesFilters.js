@@ -87,6 +87,32 @@ const ExpensesFilters = props => {
           </div>
         </div>
 
+        <div className="columns">
+          <div className="field column">
+            <label className="label is-pulled-left">Start Date</label>
+            <div className="control">
+              <Field
+                className="input"
+                type="date"
+                name="startDate"
+                value={values.startDate}
+              />
+            </div>
+          </div>
+
+          <div className="field column">
+            <label className="label is-pulled-left">End Date</label>
+            <div className="control">
+              <Field
+                className="input"
+                type="date"
+                name="endDate"
+                value={values.endDate}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="buttons">
           <button className="button is-info" type="submit">
             Apply
@@ -109,7 +135,9 @@ const ExpenseFiltersFormik = props => (
     initialValues={{
       description: "",
       category: props.categories[0],
-      paymentMethod: props.paymentMethods[0]
+      paymentMethod: props.paymentMethods[0],
+      startDate: "",
+      endDate: ""
     }}
     onSubmit={(values, { setSubmitting }) => {
       setSubmitting(false);

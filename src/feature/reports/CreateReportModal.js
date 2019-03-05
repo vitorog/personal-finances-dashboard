@@ -56,7 +56,7 @@ class CreateReportModal extends Component {
   createReport = () => {
     const report = {
       name: this.state.reportName,
-      goal: this.state.reportGoal,
+      goal: this.state.reportGoal / 100.0,
       incomeIds: Array.from(this.state.incomeIds),
       expensesIds: Array.from(this.state.expensesIds)
     };

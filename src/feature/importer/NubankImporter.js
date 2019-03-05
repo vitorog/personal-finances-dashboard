@@ -49,7 +49,12 @@ class NubankImporter extends Component {
               id: element.id,
               details: element.details,
               repeatMonths: 0,
-              splitMonths: 0
+              // TODO: Fix this
+              splitMonths: element.details
+                ? element.details.charges
+                  ? element.details.charges.count
+                  : 0
+                : 0
             };
           })
           .filter(p => p.date.getFullYear() >= this.state.yearFilter)

@@ -19,7 +19,7 @@ class ReportSummary extends React.Component {
     return expensesByCategory;
   };
 
-  getPaymentMethodByCategory = expenses => {
+  getExpensesByPaymentMethod = expenses => {
     const paymentMethodByCategory = new Map();
     expenses.forEach(expense => {
       const paymentMethod = expense.paymentMethod;
@@ -54,7 +54,7 @@ class ReportSummary extends React.Component {
 
     const expensesByCategory = this.getExpensesByCategory(expenses);
 
-    const paymentMethodByCategory = this.getPaymentMethodByCategory(expenses);
+    const paymentMethodByCategory = this.getExpensesByPaymentMethod(expenses);
 
     const categoryData = {
       labels: Array.from(expensesByCategory.keys()),

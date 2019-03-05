@@ -23,18 +23,14 @@ body {
     color: #aaa !important;
 }
 
-.modal-card {
-    overflow: visible !important;
-}
-
-.modal-card-body {
-    overflow: visible !important;
-}
-
 .select, select  {
     width: 100%;
 }
 
 .react-datepicker-wrapper, .react-datepicker__input-container {
+    width: 100%;
+}
+
+.field-body > .control {
     width: 100%;
 }
