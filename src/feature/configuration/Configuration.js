@@ -11,7 +11,7 @@ class Configuration extends Component {
         <div className="column">
           <DataTable
             title={"Configure payment methods"}
-            data={this.props.finances.paymentMethods}
+            data={this.props.finances.paymentMethods.slice()}
             headers={[{ name: "Payment Method", accessor: "description" }]}
             addForm={
               <TextFieldForm
@@ -27,7 +27,7 @@ class Configuration extends Component {
         <div className="column">
           <DataTable
             title={"Configure categories"}
-            data={this.props.finances.categories}
+            data={this.props.finances.categories.slice()}
             headers={[{ name: "Categories", accessor: "description" }]}
             addForm={
               <TextFieldForm placeholder="Category" fieldName={"description"} />

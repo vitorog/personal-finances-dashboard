@@ -54,6 +54,7 @@ class FinanceStore {
   }
 
   addIncome = income => this.addWithHashId(income, this.income);
+
   addExpense = expense => {
     if (expense.repeatMonths > 0) {
       this.addWithHashId(expense, this.expenses);
@@ -78,9 +79,12 @@ class FinanceStore {
       this.addWithHashId(expense, this.expenses);
     }
   };
+
   addPaymentMethod = paymentMethod =>
     this.addWithHashId(paymentMethod, this.paymentMethods);
+
   addCategory = category => this.addWithHashId(category, this.categories);
+
   addReport = report => this.addWithHashId(report, this.reports);
 
   addIncomeToReport = (report, incomeIds) => {
@@ -99,6 +103,12 @@ class FinanceStore {
     expenses
       .filter(elem => !expensesIds.has(elem.id))
       .forEach(e => this.addExpense(e));
+  };
+
+  setExpensesCategory = (category, expensesIds) => {
+    this.data.expenses
+      .filter(expense => expensesIds.has(expense.id))
+      .forEach(expense => (expense.category = category.description));
   };
 
   removeIncomeByIds = ids => {
@@ -131,6 +141,10 @@ class FinanceStore {
   getIncomeByIds = ids => this.getItemsByIds(this.income, ids);
 
   getExpensesByIds = ids => this.getItemsByIds(this.expenses, ids);
+
+  getCategoryById = id => {
+    return this.data.categories.filter(category => category.id === id)[0];
+  };
 
   get totalIncome() {
     return this.data.income.reduce(this.getTotalAccum, 0);

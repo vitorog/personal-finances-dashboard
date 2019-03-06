@@ -28,17 +28,24 @@ class Expenses extends Component {
       if (!this.state.filters) {
         return true;
       }
-
       let result = true;
       for (let key in filters) {
-        if (key === "startDate") {
-          result =
-            result && moment(p.date) >= moment(filters[key]).startOf("day");
-        } else if (key === "endDate") {
-          result =
-            result && moment(p.date) <= moment(filters[key]).endOf("day");
-        } else if (filters.hasOwnProperty(key) && filters[key]) {
-          result = result && filters[key] === p[key];
+        if (filters.hasOwnProperty(key) && filters[key]) {
+          if (key === "startDate") {
+            result =
+              result && moment(p.date) >= moment(filters[key]).startOf("day");
+          } else if (key === "endDate") {
+            result =
+              result && moment(p.date) <= moment(filters[key]).endOf("day");
+          } else if (filters[key]) {
+            if (key === "description") {
+              result =
+                result &&
+                p.description
+                  .toLowerCase()
+                  .includes(filters[key].toLowerCase());
+            }
+          }
         }
       }
       return result;
@@ -82,6 +89,7 @@ class Expenses extends Component {
             onAdd={this.props.finances.addExpense}
             onRemove={this.props.finances.removeExpensesByIds}
             onAddToReport={this.props.finances.addExpensesToReport}
+            onSetCategory={this.props.finances.setExpensesCategory}
           />
         </section>
       </React.Fragment>

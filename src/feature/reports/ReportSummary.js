@@ -2,13 +2,15 @@ import React from "react";
 import Card from "../../layout/Card";
 import { Pie } from "react-chartjs-2";
 import { FormattedNumber } from "react-intl";
+import 'chartjs-plugin-colorschemes';
 
 class ReportSummary extends React.Component {
-  getExpensesByCategory = expenses => {
+  getExpensesByCategory = (expenses, totalExpenses) => {
     const expensesByCategory = new Map();
     expenses.forEach(expense => {
       const category = expense.category ? expense.category : "No category";
-      const value = expense.value;
+      const value = parseFloat(expense.value);
+
       if (!expensesByCategory.has(category)) {
         expensesByCategory.set(category, value);
       } else {
@@ -16,6 +18,7 @@ class ReportSummary extends React.Component {
         expensesByCategory.set(category, previousValue + value);
       }
     });
+    this.roundData(expensesByCategory);
     return expensesByCategory;
   };
 
@@ -23,7 +26,7 @@ class ReportSummary extends React.Component {
     const paymentMethodByCategory = new Map();
     expenses.forEach(expense => {
       const paymentMethod = expense.paymentMethod;
-      const value = expense.value;
+      const value = parseFloat(expense.value);
       if (!paymentMethodByCategory.has(paymentMethod)) {
         paymentMethodByCategory.set(paymentMethod, value);
       } else {
@@ -31,8 +34,15 @@ class ReportSummary extends React.Component {
         paymentMethodByCategory.set(paymentMethod, previousValue + value);
       }
     });
+    this.roundData(paymentMethodByCategory);
     return paymentMethodByCategory;
   };
+
+  roundData(paymentMethodByCategory) {
+    for (let [key, value] of paymentMethodByCategory) {
+      paymentMethodByCategory.set(key, Math.round(value * 100) / 100);
+    }
+  }
 
   getSummaryData = (income, expenses, goal) => {
     const totalIncome = income.reduce((accum, p) => accum + Number(p.value), 0);
@@ -60,33 +70,48 @@ class ReportSummary extends React.Component {
       labels: Array.from(expensesByCategory.keys()),
       datasets: [
         {
-          data: Array.from(expensesByCategory.values()),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+          data: Array.from(expensesByCategory.values())
         }
-      ]
+      ],
+      options: {
+        plugins: {
+          colorschemes: {
+            scheme: "brewer.YlOrBr9"
+          }
+        }
+      }
     };
 
     const paymentMethodData = {
       labels: Array.from(paymentMethodByCategory.keys()),
       datasets: [
         {
-          data: Array.from(paymentMethodByCategory.values()),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+          data: Array.from(paymentMethodByCategory.values())
         }
-      ]
+      ],
+      options: {
+        plugins: {
+          colorschemes: {
+            scheme: "brewer.YlOrBr9"
+          }
+        }
+      }
     };
 
     const incomeDistributionData = {
       labels: ["Expenses", "Remaining", "Goal"],
       datasets: [
         {
-          data: [totalExpenses, budgetValue, goalValue],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+          data: [totalExpenses, budgetValue, goalValue]
         }
-      ]
+      ],
+      options: {
+        plugins: {
+          colorschemes: {
+            scheme: "brewer.YlOrBr9"
+          }
+        }
+      }
     };
 
     const hasData = income.length > 0 || expenses.length > 0;
@@ -231,7 +256,6 @@ class ReportSummary extends React.Component {
         {summaryData.hasData && (
           <section className="card-container">
             {" "}
-            <div className="columns" />
             <div className="columns">
               <div className="column">
                 <Card title="Income distribution">

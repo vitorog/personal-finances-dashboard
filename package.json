@@ -9,6 +9,7 @@
     "bulma": "^0.7.2",
     "bulma-calendar": "^5.0.3",
     "chart.js": "^2.7.3",
+    "chartjs-plugin-colorschemes": "^0.3.0",
     "formik": "^1.4.2",
     "lowdb": "^1.0.0",
     "mobx": "^5.9.0",

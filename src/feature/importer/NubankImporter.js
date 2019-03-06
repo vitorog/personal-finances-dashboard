@@ -42,7 +42,7 @@ class NubankImporter extends Component {
           .map(element => {
             return {
               description: element.description,
-              value: (element.amount / 100.0).toFixed(2),
+              value: parseFloat((element.amount / 100.0).toFixed(2)),
               paymentMethod: "Nubank",
               category: "",
               date: moment(element.time, "YYYY-MM-DD hh:mm:ss").toDate(),

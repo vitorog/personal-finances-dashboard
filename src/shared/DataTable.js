@@ -7,6 +7,7 @@ import Dropdown from "../layout/Dropdown";
 import DropdownItem from "../layout/DropdownItem";
 import ReportSelectorModal from "./ReportSelectorModal";
 import Pagination from "../layout/Pagination";
+import CategorySelectorModal from "./CategorySelectorModal";
 
 class DataTable extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class DataTable extends Component {
     this.state = {
       isAddModalVisible: false,
       isSelectReportModalVisible: false,
+      isSelectCategoryModalVisible: false,
       selectedRowsIds: new Set(),
       sort: null,
       pagination: {
@@ -25,12 +27,26 @@ class DataTable extends Component {
   }
 
   componentDidMount() {
+    this.calculatePagination();
+  }
+
+  calculatePagination() {
+    const pagination = {
+      entriesPerPage: 25,
+      numPages: 1,
+      currentPage: 1
+    };
     if (this.props.data.length > this.state.pagination.entriesPerPage) {
       const numPages =
         this.props.data.length / this.state.pagination.entriesPerPage;
-      const pagination = { ...this.state.pagination };
       pagination.numPages = Math.ceil(numPages);
-      this.setState({ pagination });
+    }
+    this.setState({ pagination });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.data.length !== this.props.data.length) {
+      this.calculatePagination();
     }
   }
 
@@ -47,6 +63,11 @@ class DataTable extends Component {
   handleAddToReport = report => {
     this.props.onAddToReport(report, this.state.selectedRowsIds);
     this.toggleSelectReport();
+  };
+
+  handleSetCategory = category => {
+    this.props.onSetCategory(category, this.state.selectedRowsIds);
+    this.toggleSelectCategory();
   };
 
   handleSelectionChange = selectedRowsIds => {
@@ -74,6 +95,12 @@ class DataTable extends Component {
       isSelectReportModalVisible: !this.state.isSelectReportModalVisible
     });
 
+  toggleSelectCategory = () => {
+    this.setState({
+      isSelectCategoryModalVisible: !this.state.isSelectCategoryModalVisible
+    });
+  };
+
   getCardActions = () => {
     return (
       <Dropdown title={"Actions"}>
@@ -96,6 +123,14 @@ class DataTable extends Component {
             isActive={this.state.selectedRowsIds.size > 0}
           />
         )}
+        {this.props.onSetCategory && (
+          <DropdownItem
+            text="Set category"
+            icon="fa fa-plus"
+            callback={this.toggleSelectCategory}
+            isActive={this.state.selectedRowsIds.size > 0}
+          />
+        )}
         {this.props.customActions}
       </Dropdown>
     );
@@ -111,7 +146,8 @@ class DataTable extends Component {
   };
 
   renderData() {
-    const data = this.applyPagination(this.applySorting());
+    const data = this.applyPagination(this.applySorting(this.props.data));
+    console.log(data);
 
     return (
       <React.Fragment>
@@ -124,7 +160,7 @@ class DataTable extends Component {
           footer={this.props.footer}
           onSelectionChange={this.handleSelectionChange}
         />
-        {this.state.pagination.numPages > 1 && (
+        {data.length > 0 && this.state.pagination.numPages > 1 && (
           <Pagination
             pagination={this.state.pagination}
             onPageChange={this.goToPage}
@@ -134,17 +170,16 @@ class DataTable extends Component {
     );
   }
 
-  applySorting() {
-    let data = this.state.sort
-      ? this.props.data.sort((a, b) => {
+  applySorting(data) {
+    return this.state.sort
+      ? data.sort((a, b) => {
           if (this.state.sort.direction === "asc") {
-            return a[this.state.sort.property] >= b[this.state.sort.property];
+            return a[this.state.sort.property] > b[this.state.sort.property];
           } else {
-            return a[this.state.sort.property] <= b[this.state.sort.property];
+            return a[this.state.sort.property] < b[this.state.sort.property];
           }
         })
-      : this.props.data;
-    return data;
+      : data;
   }
 
   applyPagination(data) {
@@ -152,8 +187,7 @@ class DataTable extends Component {
       (this.state.pagination.currentPage - 1) *
       this.state.pagination.entriesPerPage;
     const endIdx = startIdx + this.state.pagination.entriesPerPage;
-    data = data.slice(startIdx, endIdx);
-    return data;
+    return data.slice(startIdx, endIdx);
   }
 
   render() {
@@ -188,6 +222,12 @@ class DataTable extends Component {
           toggleModal={this.toggleSelectReport}
           onConfirm={this.handleAddToReport}
         />
+        <CategorySelectorModal
+          title={"Select Category"}
+          isVisible={this.state.isSelectCategoryModalVisible}
+          toggleModal={this.toggleSelectCategory}
+          onConfirm={this.handleSetCategory}
+        />
       </React.Fragment>
     );
   }
@@ -208,6 +248,7 @@ DataTable.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onAddToReport: PropTypes.func,
+  onSetCategory: PropTypes.func,
   customActions: PropTypes.element
 };
 
