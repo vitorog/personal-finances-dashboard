@@ -56,9 +56,7 @@ class Card extends Component {
         </header>
         {!this.state.collapsed && (
           <div>
-            <div className="card-content">
-              <div className="content">{this.props.children}</div>
-            </div>
+            <div className="card-content">{this.props.children}</div>
           </div>
         )}
       </div>

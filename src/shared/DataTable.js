@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Dropdown from "../layout/Dropdown";
 import DropdownItem from "../layout/DropdownItem";
 import ReportSelectorModal from "./ReportSelectorModal";
+import Pagination from "../layout/Pagination";
 
 class DataTable extends Component {
   constructor(props) {
@@ -14,8 +15,23 @@ class DataTable extends Component {
       isAddModalVisible: false,
       isSelectReportModalVisible: false,
       selectedRowsIds: new Set(),
-      sort: null
+      sort: null,
+      pagination: {
+        entriesPerPage: 25,
+        numPages: 1,
+        currentPage: 1
+      }
     };
+  }
+
+  componentDidMount() {
+    if (this.props.data.length > this.state.pagination.entriesPerPage) {
+      const numPages =
+        this.props.data.length / this.state.pagination.entriesPerPage;
+      const pagination = { ...this.state.pagination };
+      pagination.numPages = Math.ceil(numPages);
+      this.setState({ pagination });
+    }
   }
 
   handleAdd = entry => {
@@ -85,8 +101,41 @@ class DataTable extends Component {
     );
   };
 
+  goToPage = page => {
+    if (page <= 0 || page > this.state.numPages) {
+      return;
+    }
+    const pagination = { ...this.state.pagination };
+    pagination.currentPage = page;
+    this.setState({ pagination });
+  };
+
   renderData() {
-    const data = this.state.sort
+    const data = this.applyPagination(this.applySorting());
+
+    return (
+      <React.Fragment>
+        <SimpleTable
+          isSortable={true}
+          sort={this.state.sort}
+          onSortChange={this.handleSort}
+          headers={this.props.headers}
+          data={data}
+          footer={this.props.footer}
+          onSelectionChange={this.handleSelectionChange}
+        />
+        {this.state.pagination.numPages > 1 && (
+          <Pagination
+            pagination={this.state.pagination}
+            onPageChange={this.goToPage}
+          />
+        )}
+      </React.Fragment>
+    );
+  }
+
+  applySorting() {
+    let data = this.state.sort
       ? this.props.data.sort((a, b) => {
           if (this.state.sort.direction === "asc") {
             return a[this.state.sort.property] >= b[this.state.sort.property];
@@ -95,17 +144,16 @@ class DataTable extends Component {
           }
         })
       : this.props.data;
-    return (
-      <SimpleTable
-        isSortable={true}
-        sort={this.state.sort}
-        onSortChange={this.handleSort}
-        headers={this.props.headers}
-        data={data}
-        footer={this.props.footer}
-        onSelectionChange={this.handleSelectionChange}
-      />
-    );
+    return data;
+  }
+
+  applyPagination(data) {
+    const startIdx =
+      (this.state.pagination.currentPage - 1) *
+      this.state.pagination.entriesPerPage;
+    const endIdx = startIdx + this.state.pagination.entriesPerPage;
+    data = data.slice(startIdx, endIdx);
+    return data;
   }
 
   render() {

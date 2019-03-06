@@ -19,7 +19,9 @@ class SimpleTable extends React.Component {
   }
 
   isAllSelected = () => {
-    return this.state.selectedRowsIds.size === this.props.data.length;
+    return this.props.data.every(elem =>
+      this.state.selectedRowsIds.has(elem.id)
+    );
   };
 
   handleAllCheckboxChange = () => {
